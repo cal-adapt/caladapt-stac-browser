@@ -1,6 +1,6 @@
 module.exports = {
-    catalogUrl: null,
-    catalogTitle: "STAC Browser",
+    catalogUrl: "https://8dawjspn5g.execute-api.us-west-2.amazonaws.com",
+    catalogTitle: "Cal-Adapt STAC Browser",
     catalogImage: null,
     allowExternalAccess: true, // Must be true if catalogUrl is not given
     allowedDomains: [],

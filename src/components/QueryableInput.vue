@@ -54,9 +54,6 @@
         {{ $t(`checkbox.${value.value}`) }}
       </b-form-checkbox>
 
-      <b-button class="delete" size="sm" variant="danger" @click="$emit('remove-queryable')">
-        <b-icon-x-circle-fill aria-hidden="true" />
-      </b-button>
     </b-row>
 
     <b-row v-if="queryable.description || operator.description" class="queryable-help text-muted small">
@@ -142,10 +139,13 @@ export default {
     },
     queryableOptions() {
       if (this.queryable.isSelection) {
-        return this.schema.enum.map(option => ({
-          value: option,
-          text: option
-        }));
+        return [
+          { value: null, text: 'Any' },
+          ...this.schema.enum.map(option => ({
+            value: option,
+            text: option
+          }))
+        ];
       }
       return [];
     }

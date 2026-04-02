@@ -62,20 +62,10 @@
           </multiselect>
         </b-form-group>
 
-        <b-form-group v-if="showAdditionalFilters" class="additional-filters" :label="$t('search.additionalFilters')">
-          <b-form-radio-group v-model="filtersAndOr" :options="andOrOptions" name="logical" size="sm" />
-
-          <b-dropdown size="sm" :text="$t('search.addFilter')" block variant="primary" class="queryables mt-2 mb-3" menu-class="w-100">
-            <template v-for="queryable in sortedQueryables">
-              <b-dropdown-item v-if="queryable.supported" :key="queryable.id" @click="additionalFieldSelected(queryable)" link-class="d-flex justify-content-between align-items-center">
-                <span>{{ queryable.title }}</span>
-                <b-badge variant="dark" class="ml-2">{{ queryable.id }}</b-badge>
-              </b-dropdown-item>
-            </template>
-          </b-dropdown>
-
+        <b-form-group v-if="showAdditionalFilters" class="filter-queryables" :label="$t('search.additionalFilters')">
+          <b-form-radio-group v-if="filters.length > 1" v-model="filtersAndOr" :options="andOrOptions" name="logical" size="sm" class="mb-2" />
           <QueryableInput
-            v-for="(filter, index) in filters" :key="filter.id"
+            v-for="(filter, index) in filters" :key="filter.queryable.id"
             :value.sync="filter.value"
             :operator.sync="filter.operator"
             :queryable="filter.queryable"
@@ -512,6 +502,13 @@ export default {
       if (Utils.isObject(schemas) && Utils.isObject(schemas.properties)) {
         this.queryables = Object.entries(schemas.properties)
           .map(([key, schema]) => new Queryable(key, schema));
+        this.filters = this.sortedQueryables
+          .filter(q => q.supported)
+          .map(q => ({
+            value: CqlValue.create(null),
+            operator: q.getOperators(this.cql)[0],
+            queryable: q
+          }));
       }
     },
     sortFieldSet(value) {
@@ -524,7 +521,14 @@ export default {
       if (this.filters.length === 0) {
         return null;
       }
-      const args = this.filters.map(f => new f.operator(f.queryable, f.value));
+      const activeFilters = this.filters.filter(f => {
+        const val = f.value && f.value.value;
+        return val !== null && val !== undefined && val !== '' && !(typeof val === 'number' && isNaN(val));
+      });
+      if (activeFilters.length === 0) {
+        return null;
+      }
+      const args = activeFilters.map(f => new f.operator(f.queryable, f.value));
       const logical = CqlLogicalOperator.create(this.filtersAndOr, args);
       return new Cql(logical);
     },
@@ -549,6 +553,15 @@ export default {
     },
     async onReset() {
       Object.assign(this, getDefaults());
+      if (Array.isArray(this.queryables) && this.queryables.length > 0) {
+        this.filters = this.sortedQueryables
+          .filter(q => q.supported)
+          .map(q => ({
+            value: CqlValue.create(null),
+            operator: q.getOperators(this.cql)[0],
+            queryable: q
+          }));
+      }
       this.$emit('input', {}, true);
     },
     setLimit(limit) {

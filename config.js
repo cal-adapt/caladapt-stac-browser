@@ -36,7 +36,7 @@ module.exports = {
     buildTileUrlTemplate: null,
     getMapSourceOptions: null,
     pathPrefix: "/",
-    historyMode: "history",
+    historyMode: "hash",
     cardViewMode: "cards",
     cardViewSort: "asc",
     showKeywordsInItemCards: false,

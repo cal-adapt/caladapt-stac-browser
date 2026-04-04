@@ -2,8 +2,6 @@
 
 A customized [STAC Browser](https://github.com/radiantearth/stac-browser) for the [Cal-Adapt STAC API](https://8dawjspn5g.execute-api.us-west-2.amazonaws.com).
 
-**Live:** https://cal-adapt.github.io/caladapt-stac-browser/
-
 Forked from [radiantearth/stac-browser](https://github.com/radiantearth/stac-browser) at v4.0.1.
 
 ## Cal-Adapt customizations

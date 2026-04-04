@@ -134,7 +134,9 @@ export default {
         // Special handling for auth
         'auth:schemes',
         // Special handling for the STAC Browser config
-        'stac_browser'
+        'stac_browser',
+        // pgSTAC returns a 'features' field; not useful to display
+        'features'
       ]
     };
   },

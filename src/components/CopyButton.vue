@@ -74,7 +74,7 @@ export default {
                 console.error(error);
                 this.status = false;
             }
-            setTimeout(() => this.status = null, 2500);
+            setTimeout(() => this.status = null, 5000);
         }
     }
 };

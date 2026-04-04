@@ -2,6 +2,7 @@
   <component :is="component">
     <b-card-title><span v-html="fileFormat" /></b-card-title>
     <HrefActions isAsset :data="asset" :shown="shown" @show="show" :auth="auth" />
+    <PythonSnippet :asset="asset" />
     <b-card-text class="mt-4" v-if="asset.description">
       <Description :description="asset.description" compact />
     </b-card-text>
@@ -23,7 +24,8 @@ export default {
   components: {
     Description,
     HrefActions,
-    Metadata: () => import('./Metadata.vue')
+    Metadata: () => import('./Metadata.vue'),
+    PythonSnippet: () => import('./PythonSnippet.vue')
   },
   mixins: [
     StacFieldsMixin({ formatMediaType })

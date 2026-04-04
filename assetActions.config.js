@@ -8,6 +8,7 @@ import GeoJsonIo from './src/actions/assets/GeoJsonIo.js';
 // import Geoparquet from './src/actions/assets/Geoparquet.js';
 // import Potree from './src/actions/assets/Potree.js';
 import Protomaps from './src/actions/assets/Protomaps.js';
+import S3Download from './src/actions/assets/S3Download.js';
 
 export default {
   //Felt
@@ -18,4 +19,5 @@ export default {
   GeoJsonIo,
   // Potree,
   Protomaps,
+  S3Download,
 };

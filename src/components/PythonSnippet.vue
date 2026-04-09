@@ -1,14 +1,28 @@
 <template>
   <div v-if="snippet" class="python-snippet mt-3">
-    <p class="snippet-label">Open with Python</p>
+    <p class="snippet-label">{{ label }}</p>
     <div class="snippet-block">
-      <button class="copy-btn" @click="copy">{{ copied ? '✓ Copied' : 'Copy' }}</button>
+      <div class="snippet-actions">
+        <a v-if="climakitaeSnippet" href="https://github.com/cal-adapt/climakitae" target="_blank" rel="noopener noreferrer" class="snippet-btn">climakitae on GitHub</a>
+        <button class="snippet-btn" @click="copy">{{ copied ? '✓ Copied' : 'Copy code' }}</button>
+      </div>
       <pre class="snippet-code"><code>{{ snippet }}</code></pre>
     </div>
   </div>
 </template>
 
 <script>
+const CLIMAKITAE_CADCAT_COLLECTIONS = new Set([
+  'wrf-ucsd',
+  'wrf-ucla',
+  'loca2-gridded',
+]);
+
+const CLIMAKITAE_REN_COLLECTIONS = new Set([
+  'pv-generation',
+  'wind-generation',
+]);
+
 export default {
   name: 'PythonSnippet',
   props: {
@@ -29,7 +43,58 @@ export default {
     mediaType() {
       return (this.asset?.type || '').toLowerCase();
     },
-    snippet() {
+    itemContext() {
+      return this.asset?.getContext?.() || null;
+    },
+    collectionId() {
+      return this.itemContext?.collection || '';
+    },
+    itemProps() {
+      return this.itemContext?.properties || {};
+    },
+    climakitaeSnippet() {
+      const col = this.collectionId;
+      const p = this.itemProps;
+
+      if (CLIMAKITAE_CADCAT_COLLECTIONS.has(col)) {
+        return [
+          'import climakitae as ck',
+          '',
+          'cd = ck.ClimateData(verbosity=-1)',
+          'data = (cd',
+          '    .catalog("cadcat")',
+          `    .variable("${p.variable_id}")`,
+          `    .experiment_id("${p.experiment_id}")`,
+          `    .source_id("${p.source_id}")`,
+          `    .grid_label("${p.grid_label}")`,
+          '    .get()',
+          ')',
+          'data',
+        ].join('\n');
+      }
+
+      if (CLIMAKITAE_REN_COLLECTIONS.has(col)) {
+        return [
+          'import climakitae as ck',
+          '',
+          'cd = ck.ClimateData(verbosity=-1)',
+          'data = (cd',
+          '    .catalog("renewable energy generation")',
+          `    .installation("${p.installation}")`,
+          `    .variable("${p.variable_id}")`,
+          `    .experiment_id("${p.experiment_id}")`,
+          `    .source_id("${p.source_id}")`,
+          `    .table_id("${p.table_id}")`,
+          `    .grid_label("${p.grid_label}")`,
+          '    .get()',
+          ')',
+          'data',
+        ].join('\n');
+      }
+
+      return null;
+    },
+    genericSnippet() {
       const href = this.href;
       if (!href.startsWith('s3://')) return null;
 
@@ -43,6 +108,12 @@ export default {
         return `import pandas as pd\n\ndf = pd.read_csv("${href}")\ndf.head()`;
       }
       return null;
+    },
+    snippet() {
+      return this.climakitaeSnippet || this.genericSnippet;
+    },
+    label() {
+      return this.climakitaeSnippet ? 'Open with climakitae' : 'Open with Python';
     }
   },
   methods: {
@@ -86,10 +157,14 @@ export default {
   overflow-x: auto;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
 }
-.copy-btn {
+.snippet-actions {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
+  display: flex;
+  gap: 0.3rem;
+}
+.snippet-btn {
   background: #3c3c3c;
   color: #aaa;
   border: 1px solid #555;
@@ -98,9 +173,11 @@ export default {
   font-size: 0.72rem;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
+  text-decoration: none;
 }
-.copy-btn:hover {
+.snippet-btn:hover {
   background: #505050;
   color: #fff;
+  text-decoration: none;
 }
 </style>

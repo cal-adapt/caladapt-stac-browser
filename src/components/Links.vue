@@ -24,6 +24,16 @@ import Utils from '../utils';
 import { translateFields } from '../i18n';
 import { mapState } from 'vuex';
 
+// Merge these rels into a single display group
+const REL_GROUP_ALIASES = {
+  'service-desc': 'api',
+  'service-doc': 'api',
+};
+
+const REL_GROUP_LABELS = {
+  'api': 'API',
+};
+
 
 export default {
   name: "Links",
@@ -49,13 +59,14 @@ export default {
     groups() {
       let groups = this.links.reduce((summary, link) => {
         let rel = typeof link.rel === 'string' ? link.rel.toLowerCase() : "";
-        if (rel in summary) {
-          summary[rel].links.push(link);
+        let groupKey = REL_GROUP_ALIASES[rel] || rel;
+        if (groupKey in summary) {
+          summary[groupKey].links.push(link);
         }
         else {
-          summary[rel] = {
-            rel: rel,
-            label: this.formatRel(rel),
+          summary[groupKey] = {
+            rel: groupKey,
+            label: REL_GROUP_LABELS[groupKey] || this.formatRel(groupKey),
             links: [link]
           };
         }

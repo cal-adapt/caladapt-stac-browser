@@ -19,7 +19,7 @@
           </multiselect>
         </b-form-group>
 
-        <b-form-group v-if="canFilterExtents" class="filter-datetime" :label="$t('search.temporalExtent')" :label-for="ids.datetime" :description="$t('search.dateDescription')">
+        <b-form-group v-if="canFilterExtents && !hideTemporalFilter" class="filter-datetime" :label="$t('search.temporalExtent')" :label-for="ids.datetime" :description="$t('search.dateDescription')">
           <date-picker
             range type="datetime" v-model="datetime" input-class="form-control mx-input"
             :id="ids.datetime" :lang="datepickerLang" :format="dateTimeFormat"
@@ -295,6 +295,19 @@ export default {
         return this.$t('defaultWithValue', {value: this.searchResultsPerPage});
       }
       return this.$t('default');
+    },
+    hideTemporalFilter() {
+      const HIDE_TEMPORAL_FILTER = new Set([
+        'wrf-ucsd',
+        'wrf-ucla',
+        'loca2-gridded',
+        'loca2-county',
+        'pv-generation',
+        'wind-generation',
+        'standard-met-year',
+        'typical-met-year',
+      ]);
+      return this.parent && HIDE_TEMPORAL_FILTER.has(this.parent.id);
     },
     datetime: {
       get() {

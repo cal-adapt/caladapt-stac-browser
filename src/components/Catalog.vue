@@ -66,9 +66,6 @@ export default {
     data() {
       return this.getStac(this.catalog);
     },
-    spatialType() {
-      return this.data?.['caladapt:spatial_type'] || null;
-    },
     temporalExtent() {
       if (this.data?.isCollection() && this.data.extent?.temporal?.interval.length > 0) {
         let extent = this.data.extent.temporal.interval[0];

@@ -300,12 +300,14 @@ export default {
       const HIDE_TEMPORAL_FILTER = new Set([
         'wrf-ucsd',
         'wrf-ucla',
+        'wrf-cae',
         'loca2-gridded',
         'loca2-county',
         'pv-generation',
         'wind-generation',
         'standard-met-year',
         'typical-met-year',
+        'sea-level-projections',
       ]);
       return this.parent && HIDE_TEMPORAL_FILTER.has(this.parent.id);
     },

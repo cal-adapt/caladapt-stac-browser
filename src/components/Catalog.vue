@@ -7,9 +7,10 @@
       <b-card-title>
         <StacLink :data="[data, catalog]" class="stretched-link" />
       </b-card-title>
-      <b-card-text v-if="fileFormats.length > 0 || hasDescription || isDeprecated" class="intro">
+      <b-card-text v-if="fileFormats.length > 0 || spatialType || hasDescription || isDeprecated" class="intro">
         <b-badge v-if="isDeprecated" variant="warning" class="mr-1 mt-1 deprecated">{{ $t('deprecated') }}</b-badge>
         <b-badge v-for="format in fileFormats" :key="format" variant="secondary" class="mr-1 mt-1 fileformat">{{ format }}</b-badge>
+        <b-badge v-if="spatialType" variant="info" class="mr-1 mt-1 spatial-type">{{ spatialType }}</b-badge>
         {{ summarizeDescription }}
       </b-card-text>
       <Keywords v-if="showKeywordsInCatalogCards && keywords.length > 0" :keywords="keywords" variant="primary" />
@@ -65,6 +66,9 @@ export default {
     },
     data() {
       return this.getStac(this.catalog);
+    },
+    spatialType() {
+      return this.data?.['caladapt:spatial_type'] || null;
     },
     temporalExtent() {
       if (this.data?.isCollection() && this.data.extent?.temporal?.interval.length > 0) {

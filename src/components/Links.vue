@@ -76,7 +76,7 @@ export default {
       return Object.values(groups).sort((g1, g2) => collator.compare(g1.label, g2.label));
     },
     hasGroups() {
-      return this.groups.some(group => group.rel.length > 0 && group.links.length >= 2);
+      return this.groups.length >= 2;
     }
   },
   methods: {

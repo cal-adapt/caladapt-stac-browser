@@ -12,9 +12,12 @@
 </template>
 
 <script>
-const CLIMAKITAE_CADCAT_COLLECTIONS = new Set([
+const CLIMAKITAE_WRF_COLLECTIONS = new Set([
   'wrf-ucsd',
   'wrf-ucla',
+]);
+
+const CLIMAKITAE_LOCA2_COLLECTIONS = new Set([
   'loca2-gridded',
 ]);
 
@@ -56,16 +59,36 @@ export default {
       const col = this.collectionId;
       const p = this.itemProps;
 
-      if (CLIMAKITAE_CADCAT_COLLECTIONS.has(col)) {
+      if (CLIMAKITAE_WRF_COLLECTIONS.has(col)) {
         return [
           'import climakitae as ck',
           '',
           'cd = ck.ClimateData(verbosity=-1)',
           'data = (cd',
           '    .catalog("cadcat")',
+          `    .activity_id("${p.activity_id}")`,
+          `    .institution_id("${p.institution_id}")`,
           `    .variable("${p.variable_id}")`,
           `    .experiment_id("${p.experiment_id}")`,
           `    .source_id("${p.source_id}")`,
+          `    .grid_label("${p.grid_label}")`,
+          '    .get()',
+          ')',
+          'data',
+        ].join('\n');
+      }
+
+      if (CLIMAKITAE_LOCA2_COLLECTIONS.has(col)) {
+        return [
+          'import climakitae as ck',
+          '',
+          'cd = ck.ClimateData(verbosity=-1)',
+          'data = (cd',
+          '    .catalog("cadcat")',
+          `    .activity_id("${p.activity_id}")`,
+          `    .variable("${p.variable_id}")`,
+          `    .experiment_id("${p['cmip6:experiment_id']}")`,
+          `    .source_id("${p['cmip6:source_id']}")`,
           `    .grid_label("${p.grid_label}")`,
           '    .get()',
           ')',

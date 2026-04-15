@@ -79,7 +79,8 @@
         </li>
       </ul>
       <small class="poweredby text-muted">
-        Cal-Adapt STAC Browser — built on <a href="https://github.com/cal-adapt/caladapt-stac-browser" target="_blank">STAC Browser</a> {{ browserVersion }}
+        <a href="https://github.com/cal-adapt/caladapt-stac-browser" target="_blank">Cal-Adapt STAC Browser</a> on GitHub<br>
+        Built on <a href="https://github.com/radiantearth/stac-browser" target="_blank">Radiant Earth's STAC Browser</a> {{ browserVersion }}
       </small>
     </footer>
     <b-popover

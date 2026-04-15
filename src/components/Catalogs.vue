@@ -3,9 +3,11 @@
     <header>
       <h2 class="title mr-2">{{ title }}</h2>
       <b-badge v-if="catalogCount !== null" pill variant="secondary" class="mr-4">{{ catalogCount }}</b-badge>
-      <ViewButtons v-if="!hideControls" class="mr-2" v-model="view" />
-      <SortButtons v-if="!hideControls && catalogs.length > 1" v-model="sort" />
     </header>
+    <div v-if="!hideControls" class="catalog-view-controls mb-2">
+      <ViewButtons class="mr-2" v-model="view" />
+      <SortButtons v-if="catalogs.length > 1" v-model="sort" />
+    </div>
     <section v-if="!hideControls && catalogs.length > 1" class="catalog-filter mb-2">
       <SearchBox v-model="searchTerm" :placeholder="filterPlaceholder" />
       <multiselect
@@ -111,10 +113,7 @@ export default {
       else if (this.count !== null) {
         return this.count;
       }
-      else if (this.isComplete) {
-        return this.catalogs.length;
-      }
-      return null;
+      return this.catalogs.length || null;
     },
     title() {
       if (this.collectionsOnly) {

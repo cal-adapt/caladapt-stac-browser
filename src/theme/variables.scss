@@ -6,19 +6,19 @@
 $logo-image-height: 2rem;
 
 // Background and text default colors
-$body-bg: white;
-$body-color: black;
+$body-bg: #f2f4f7;
+$body-color: #333538;
 
 // Colors
 $theme-colors: (
-  "primary":       #188191,
-  "secondary":     #6c757d,
-  "success":       #28a745,
-  "info":          #09B3AD,
+  "primary":       #1a5f82,
+  "secondary":     #4a4f57,
+  "success":       #1e7e34,
+  "info":          #e8f4fb,
   "warning":       #ffc107,
   "danger":        #dc3545,
   "light":         #f8f9fa,
-  "dark":          #343a40
+  "dark":          #333538
 );
 
 // Breakpoints for responsive design
@@ -57,7 +57,7 @@ $link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: underline;
 
 // Margin between the main sections of the page (header, content, footer)
-$block-margin: 1rem;
+$block-margin: 0.75rem;
 
 // Margin at the top of the page (for a custom header)
 $header-margin: 0px;

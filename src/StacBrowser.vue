@@ -8,14 +8,19 @@
       <b-row class="site">
         <b-col md="12">
           <nav class="actions navigation">
-            <b-button-group v-if="canSearch || isServerSelector">
-              <b-button v-if="isServerSelector" variant="primary" size="sm" :title="$t('browse')" v-b-toggle.sidebar @click="sidebar = true">
-                <b-icon-list /><span class="button-label">{{ $t('browse') }}</span>
+            <b-button-group>
+              <b-button v-if="apiDocsUrl" variant="primary" size="sm" :href="apiDocsUrl" target="_blank" title="API Documentation">
+                <b-icon-book /><span class="button-label">API Docs</span>
               </b-button>
-              <b-button v-if="canSearch" variant="primary" size="sm" :to="searchBrowserLink" :title="$t('search.title')" :pressed="isSearchPage">
-                <b-icon-search /><span class="button-label">{{ $t('search.title') }}</span>
+              <b-button v-if="url" size="sm" variant="primary" id="popover-link-btn"
+                :title="$t('source.detailsAboutSource')" tag="a" tabindex="0">
+                <b-icon-info-lg /><span class="button-label">{{ $t('source.label') }}</span>
+              </b-button>
+              <b-button v-if="calAdaptUrl" variant="primary" size="sm" :href="calAdaptUrl" target="_blank" title="Cal-Adapt Website">
+                <b-icon-box-arrow-up-right /><span class="button-label">Cal-Adapt</span>
               </b-button>
             </b-button-group>
+            <Source :title="title" :stacUrl="url" :stac="data" />
           </nav>
           <div class="title">
             <img v-if="logo" :src="logo.getAbsoluteUrl()" :alt="logo.title" :title="logo.title" class="logo">
@@ -45,8 +50,8 @@
       </b-row>
       <b-row class="page" v-if="!loading">
         <b-col md="12">
-          <div class="title">
-            <img v-if="icon && !isRoot" :src="icon.getAbsoluteUrl()" :alt="icon.title" :title="icon.title" class="icon">
+          <div v-if="!isRoot" class="title">
+            <img v-if="icon" :src="icon.getAbsoluteUrl()" :alt="icon.title" :title="icon.title" class="icon">
             <h1>{{ title }}</h1>
           </div>
           <nav class="actions navigation">
@@ -62,7 +67,6 @@
               </b-button>
             </b-button-group>
           </nav>
-          <Source class="actions" :title="title" :stacUrl="url" :stac="data" />
         </b-col>
       </b-row>
     </header>
@@ -74,11 +78,9 @@
           <a :href="link.url" target="_blank">{{ $te(`footerLinks.${link.label}`) ? $t(`footerLinks.${link.label}`) : link.label }}</a>
         </li>
       </ul>
-      <i18n tag="small" path="poweredBy" class="poweredby text-muted">
-        <template #link>
-          <a href="https://github.com/radiantearth/stac-browser" target="_blank">STAC Browser</a> {{ browserVersion }}
-        </template>
-      </i18n>
+      <small class="poweredby text-muted">
+        Cal-Adapt STAC Browser — built on <a href="https://github.com/cal-adapt/caladapt-stac-browser" target="_blank">STAC Browser</a> {{ browserVersion }}
+      </small>
     </footer>
     <b-popover
       v-if="root" id="popover-root" custom-class="popover-large" target="popover-root-btn"
@@ -102,9 +104,9 @@ import getStore from "./store";
 
 import {
   AlertPlugin, BadgePlugin, BPopover,
-  BIconArrow90degUp, BIconArrowLeft, BIconCaretDownFill,
-  BIconFolderSymlink, BIconInfoLg, BIconList, BIconLock,
-  BIconSearch, BIconUnlock,
+  BIconArrow90degUp, BIconArrowLeft, BIconBook, BIconBoxArrowUpRight, BIconCaretDownFill,
+  BIconFolderSymlink, BIconInfoLg, BIconLock,
+  BIconUnlock,
   ButtonGroupPlugin, ButtonPlugin, CardPlugin, LayoutPlugin, SpinnerPlugin,
   VBToggle, VBVisible } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
@@ -184,10 +186,10 @@ export default {
     BIconArrowLeft,
     BIconCaretDownFill,
     BIconFolderSymlink,
+    BIconBook,
+    BIconBoxArrowUpRight,
     BIconInfoLg,
-    BIconList,
     BIconLock,
-    BIconSearch,
     BIconUnlock,
     BPopover,
     ErrorAlert,
@@ -217,9 +219,15 @@ export default {
       supportedLocalesFromVueX: 'supportedLocales',
       storeLocaleFromVueX: 'storeLocale'
     }),
-    ...mapGetters(['canSearch', 'collectionLink', 'description', 'fromBrowserPath', 'isExternalUrl', 'isRoot', 'parentLink', 'root', 'rootLink', 'supportsConformance', 'title', 'toBrowserPath']),
+    ...mapGetters(['collectionLink', 'description', 'fromBrowserPath', 'isExternalUrl', 'isRoot', 'parentLink', 'root', 'rootLink', 'supportsConformance', 'title', 'toBrowserPath']),
     ...mapGetters('auth', { authMethod: 'method' }),
     ...mapGetters('auth', ['canAuthenticate', 'isLoggedIn', 'showLogin']),
+    apiDocsUrl() {
+      return this.root?.links?.find(l => l.rel === 'service-doc')?.href || null;
+    },
+    calAdaptUrl() {
+      return this.root?.links?.find(l => l.rel === 'related' && l.href?.includes('cal-adapt.org') && !l.href?.includes('analytics'))?.href || null;
+    },
     browserVersion() {
       if (typeof STAC_BROWSER_VERSION !== 'undefined') {
         return STAC_BROWSER_VERSION;
@@ -227,12 +235,6 @@ export default {
       else {
         return "";
       }
-    },
-    isSearchPage() {
-      return this.$route.name === 'search';
-    },
-    isServerSelector() {
-      return this.$route.name !== 'select';
     },
     authIcon() {
       return this.isLoggedIn ? 'b-icon-unlock' : 'b-icon-lock';
@@ -242,22 +244,6 @@ export default {
     },
     authLabel() {
       return this.isLoggedIn ? this.authMethod.getLogoutLabel() : this.authMethod.getLoginLabel();
-    },
-    searchBrowserLink() {
-      if (!this.canSearch) {
-        return null;
-      }
-      let searchLink;
-      if (this.data instanceof CatalogLike && !this.data.equals(this.root)) {
-        searchLink = this.data.getSearchLink();
-      }
-      if (searchLink) {
-        return `/search${this.data.getBrowserPath()}`;
-      }
-      else if (this.root && this.allowSelectCatalog) {
-        return `/search${this.root.getBrowserPath()}`;
-      }
-      return '/search';
     },
     isApi() {
       // todo: This gives false results for a statically hosted OGC API - Records, which may include conformance classes

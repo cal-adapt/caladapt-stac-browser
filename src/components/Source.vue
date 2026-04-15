@@ -1,20 +1,5 @@
 <template>
-  <nav class="share">
-    <b-button-group>
-      <b-button
-        v-if="stacUrl" size="sm" variant="outline-primary" id="popover-link-btn"
-        :title="$t('source.detailsAboutSource')" tag="a" tabindex="0"
-      >
-        <b-icon-info-lg /><span class="button-label">{{ $t('source.label') }}</span>
-      </b-button>
-      <b-button
-        size="sm" variant="outline-primary" id="popover-share-btn"
-        :title="$t('source.share.withOthers')" tag="a" tabindex="0"
-      >
-        <b-icon-share /><span class="button-label">{{ $t('source.share.title') }}</span>
-      </b-button>
-    </b-button-group>
-
+  <div>
     <b-popover
       v-if="stacUrl" id="popover-link" custom-class="popover-large" target="popover-link-btn"
       triggers="focus" placement="bottom" container="stac-browser" :title="$t('source.title')"
@@ -42,37 +27,23 @@
       <Url id="stacUrl" :url="stacUrl" :label="$t('source.locatedAt')" />
     </b-popover>
 
-    <b-popover
-      id="popover-share" custom-class="popover-large" target="popover-share-btn" triggers="focus"
-      placement="bottom" container="stac-browser" :title="$t('source.share.title')"
-    >
-      <Url id="browserUrl" :url="browserUrl()" :label="$t('source.share.sharePageWithOthers')" :open="false" />
-      <template v-if="enableSocialSharing">
-        <hr>
-        <SocialSharing :text="sharingMessage" :title="title" :url="browserUrl()" />
-      </template>
-    </b-popover>
-  </nav>
+  </div>
 </template>
 
 <script>
-import { BIconInfoLg, BIconShare, BPopover } from 'bootstrap-vue';
+import { BPopover } from 'bootstrap-vue';
 import { mapState } from 'vuex';
 
 import Url from './Url.vue';
 
 import CopyButton from './CopyButton.vue';
-import SocialSharing from './SocialSharing.vue';
 
 export default {
   name: "Source",
   components: {
-    BIconInfoLg,
-    BIconShare,
     BPopover,
     Url,
     CopyButton,
-    SocialSharing,
     Validation: () => import('./Validation.vue')
   },
   props: {
@@ -90,35 +61,17 @@ export default {
     }
   },
   computed: {
-    ...mapState(['socialSharing', 'valid']),
+    ...mapState(['valid']),
     stacVersion() {
       return this.stac?.stac_version;
     },
     stacId() {
       return this.stac?.id;
-    },
-    enableSocialSharing() {
-      return Array.isArray(this.socialSharing) && this.socialSharing.length > 0;
-    },
-    sharingMessage() {
-      const url = window.location.toString();
-      return this.$t('source.share.message', {title: this.title, url: url});
-    }
-  },
-  methods: {
-    browserUrl() {
-      return window.location.toString();
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-.share {
-  display: flex;
-  gap: 0.25rem;
-}
-</style>
 <style lang="scss">
 #popover-link .stac-id .btn-sm,
 #popover-link .stac-valid .btn-sm {

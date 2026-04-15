@@ -20,7 +20,7 @@ export default {
     },
     variant: {
       type: String,
-      default: 'secondary'
+      default: 'dark'
     },
     clickable: {
       type: Boolean,
@@ -54,6 +54,14 @@ export default {
 
   .keyword {
     padding: 0.3em 0.4em;
+    background-color: #d6d9de;
+    color: #333538;
+    cursor: default;
+
+    &.active {
+      background-color: #1a5f82;
+      color: #ffffff;
+    }
 
     &.clickable {
       position: relative;

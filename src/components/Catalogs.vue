@@ -128,7 +128,7 @@ export default {
       return !this.hasMore && !this.showPagination;
     },
     filterPlaceholder() {
-      return this.isComplete ? this.$t('catalogs.filterByTitleAndMore') : this.$t('catalogs.filterByTitle');
+      return this.$t('catalogs.filterByTitleAndMore');
     },
     showPagination() {
       // Check whether any pagination links are available
@@ -154,28 +154,31 @@ export default {
           return false;
         });
       }
-      if (this.hasMore) {
-        return catalogs;
-      }
-      // Text search and sort only apply when all catalogs are loaded
-      if (this.searchTerm) {
-        catalogs = catalogs.filter(catalog => {
-          let haystack = [ catalog.title ];
-          if (catalog instanceof STAC && this.isComplete) {
-            haystack.push(catalog.id);
-            if (Array.isArray(catalog.keywords)) {
-              haystack = haystack.concat(catalog.keywords);
-            }
-          }
-          return Utils.search(this.searchTerm, haystack);
-        });
-      }
       if (!this.apiFilters.sortby && this.sort !== 0) {
         const collator = new Intl.Collator(this.uiLanguage);
         catalogs = catalogs.slice(0).sort((a,b) => collator.compare(getDisplayTitle(a), getDisplayTitle(b)));
         if (this.sort === -1) {
           catalogs = catalogs.reverse();
         }
+      }
+      if (this.hasMore) {
+        return catalogs;
+      }
+      // Text search only applies when all catalogs are loaded
+      if (this.searchTerm) {
+        catalogs = catalogs.filter(catalog => {
+          let haystack = [ catalog.title ];
+          if (catalog instanceof STAC && this.isComplete) {
+            haystack.push(catalog.id);
+            if (catalog.description) {
+              haystack.push(catalog.description);
+            }
+            if (Array.isArray(catalog.keywords)) {
+              haystack = haystack.concat(catalog.keywords);
+            }
+          }
+          return Utils.search(this.searchTerm, haystack);
+        });
       }
       return catalogs;
     },
@@ -216,9 +219,6 @@ export default {
   methods: {
     loadMore(visible = true) {
       if (visible) {
-        // Disable sorting if pagination is/was active as otherwise the order of elements
-        // may change unexpectedly after the last page has been loaded.
-        this.sort = 0;
         this.$emit('loadMore');
       }
     },

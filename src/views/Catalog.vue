@@ -21,7 +21,6 @@
               <b-col md="8" class="value"><span v-html="temporalExtents" /></b-col>
             </b-row>
           </section>
-          <Links v-if="linkPosition === 'left'" :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
         </section>
         <section v-if="isCollection" class="mb-4">
           <b-card no-body class="maps-preview">
@@ -36,7 +35,7 @@
         <Assets v-if="hasItemAssets && !hasItems" :assets="itemAssets" :context="data" :definition="true" />
         <Providers v-if="providers" :providers="providers" />
         <Metadata class="mb-4" :type="data.type" :data="data" :ignoreFields="ignoredMetadataFields" />
-        <Links v-if="linkPosition === 'right'" :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
+
       </b-col>
       <b-col class="catalogs-container" v-if="hasCatalogs">
         <Catalogs :catalogs="catalogs" :hasMore="!!nextCollectionsLink" @loadMore="loadMoreCollections" />
@@ -148,17 +147,6 @@ export default {
     },
     showFilters() {
       return Boolean(this.stateQueryParameters['itemFilterOpen']);
-    },
-    linkPosition() {
-      if (this.additionalLinks.length === 0) {
-        return null;
-      }
-      if (this.isCollection || !this.hasThumbnails) {
-        return "right";
-      }
-      else {
-        return "left";
-      }
     },
     apiItemsLoading() {
       return this.getApiItemsLoading(this.data);

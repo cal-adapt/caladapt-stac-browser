@@ -50,6 +50,12 @@ body {
         gap: 1rem;
         align-items: center;
 
+        > .actions.navigation {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
         > .title {
           word-break: break-word;
           display: flex;
@@ -87,6 +93,14 @@ body {
       > .col-md-12 {
         > .title {
           justify-content: center;
+          flex-grow: 0;
+        }
+        > .actions {
+          flex: 1;
+        }
+        > .actions.user {
+          display: flex;
+          justify-content: flex-end;
         }
       }
     }
@@ -202,7 +216,7 @@ body {
   }
 
   .card {
-    background: transparent;
+    background: #ffffff;
   }
 
   input:invalid {
@@ -403,18 +417,20 @@ body {
       }
     }
 
-    &.catalog-card {
+    &.catalog-card,
+    &.item-card {
+      cursor: pointer;
+      border: 1px solid #e2e5ea;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
 
       &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
       }
     }
 
     .card-body,
     .card-footer {
-      position: relative;
       gap: 0.5rem;
 
       > p {
@@ -540,6 +556,13 @@ $primary-color: map-get($theme-colors, "primary");
   .multiselect__option--highlight,
   .multiselect__option--highlight:after {
     background-color: map-get($theme-colors, "primary");
+  }
+
+  .multiselect__tag-icon:after {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .multiselect__tag-icon:hover:after {
+    color: #ffffff;
   }
 
   .multiselect__option--selected.multiselect__option--highlight,

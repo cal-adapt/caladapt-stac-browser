@@ -4,20 +4,20 @@
       <b-button variant="danger" :size="size" v-if="requiresAuth" tag="a" tabindex="0" :id="`popover-href-${id}-btn`" @click="handleAuthButton">
         <b-icon-lock /> {{ $t('authentication.required') }}
       </b-button>
-      <b-button v-if="hasDownloadButton" :size="size" :disabled="requiresAuth" v-bind="downloadProps" v-on="downloadEvents" variant="primary">
+      <b-button v-if="hasDownloadButton" :size="size" :disabled="requiresAuth" v-bind="downloadProps" v-on="downloadEvents" variant="success">
         <b-spinner v-if="loading" small variant="light" />
         <b-icon-box-arrow-up-right v-else-if="browserCanOpenFile" />
         <b-icon-download v-else />
         {{ buttonText }}
       </b-button>
-      <b-button v-for="action of actions" v-bind="action.btnOptions" :key="action.id" :size="size" variant="primary" @click="action.onClick">
+      <b-button v-for="action of actions" v-bind="action.btnOptions" :key="action.id" :size="size" variant="success" @click="action.onClick">
         <component v-if="action.icon" :is="action.icon" class="mr-1" />
         {{ action.text }}
       </b-button>
-      <CopyButton variant="primary" :size="size" :copyText="href" :title="href">
+      <CopyButton variant="success" :size="size" :copyText="href" :title="href">
         {{ copyButtonText }}
       </CopyButton>
-      <b-button v-if="hasShowButton" :size="size" @click="show" variant="primary">
+      <b-button v-if="hasShowButton" :size="size" @click="show" variant="success">
         <b-icon-eye class="mr-1" />
         <template v-if="isThumbnail">{{ $t('assets.showThumbnail') }}</template>
         <template v-else>{{ $t('assets.showOnMap') }}</template>

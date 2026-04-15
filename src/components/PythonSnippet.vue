@@ -15,6 +15,7 @@
 const CLIMAKITAE_WRF_COLLECTIONS = new Set([
   'wrf-ucsd',
   'wrf-ucla',
+  'wrf-cae',
 ]);
 
 const CLIMAKITAE_LOCA2_COLLECTIONS = new Set([

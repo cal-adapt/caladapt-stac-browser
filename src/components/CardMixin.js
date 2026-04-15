@@ -36,7 +36,7 @@ export default {
             alt: t.title,
             crossorigin: this.crossOriginMedia,
             right: this.isList,
-            blankColor: "rgba(0, 0, 0, 0.125)",
+            blankColor: "#ffffff",
             width,
             height,
             // for b-card-img-lazy

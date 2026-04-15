@@ -4,9 +4,9 @@
       <h2 class="title mr-2">{{ title }}</h2>
       <b-badge v-if="catalogCount !== null" pill variant="secondary" class="mr-4">{{ catalogCount }}</b-badge>
       <ViewButtons v-if="!hideControls" class="mr-2" v-model="view" />
-      <SortButtons v-if="!hideControls && isComplete && catalogs.length > 1" v-model="sort" />
+      <SortButtons v-if="!hideControls && catalogs.length > 1" v-model="sort" />
     </header>
-    <section v-if="!hideControls && isComplete && catalogs.length > 1" class="catalog-filter mb-2">
+    <section v-if="!hideControls && catalogs.length > 1" class="catalog-filter mb-2">
       <SearchBox v-model="searchTerm" :placeholder="filterPlaceholder" />
       <multiselect
         v-if="allKeywords.length > 0" v-model="selectedKeywords" multiple :options="allKeywords"
@@ -180,9 +180,6 @@ export default {
       return catalogs;
     },
     allKeywords() {
-      if (!this.isComplete) {
-        return [];
-      }
       let keywords = [];
       for(let catalog of this.allCatalogs) {
         if (catalog instanceof STAC && Array.isArray(catalog.keywords)) {

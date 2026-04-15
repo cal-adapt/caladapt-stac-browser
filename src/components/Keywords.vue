@@ -51,13 +51,13 @@ export default {
   gap: 0.25rem;
   align-items: flex-start;
   align-content: flex-start;
-  position: relative;
-  z-index: 2;
 
   .keyword {
     padding: 0.3em 0.4em;
 
     &.clickable {
+      position: relative;
+      z-index: 2;
       cursor: pointer;
       transition: opacity 0.15s ease, transform 0.1s ease;
 

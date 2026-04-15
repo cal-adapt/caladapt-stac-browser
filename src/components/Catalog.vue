@@ -1,6 +1,6 @@
 <template>
   <b-card no-body :class="classes" v-b-visible.400="load" :img-right="isList">
-    <div class="card-img-wrapper">
+    <div v-if="!isList" class="card-img-wrapper">
       <b-card-img-lazy v-if="hasImage" class="thumbnail" offset="200" v-bind="thumbnail" />
     </div>
     <b-card-body>

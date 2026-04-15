@@ -40,7 +40,7 @@ module.exports = {
     cardViewMode: "cards",
     cardViewSort: "asc",
     showKeywordsInItemCards: false,
-    showKeywordsInCatalogCards: false,
+    showKeywordsInCatalogCards: true,
     showThumbnailsAsAssets: false,
     searchResultsPerPage: null,
     itemsPerPage: null,

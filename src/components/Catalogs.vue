@@ -16,13 +16,14 @@
         :deselectLabel="$t('multiselect.deselectLabel')"
         :limitText="limitText"
       />
+      <ResetButton @click="selectedKeywords = []" />
     </section>
     <Pagination v-if="showPagination" ref="topPagination" class="mb-3" :pagination="pagination" placement="top" @paginate="paginate" />
     <b-alert v-if="hasSearchCritera && catalogView.length === 0" variant="warning" class="mt-2" show>{{ $t('catalogs.noMatches') }}</b-alert>
     <section class="list">
       <Loading v-if="loading" fill top />
       <div v-if="catalogView.length > 0" :class="cardsContainerClass">
-        <Catalog v-for="catalog in catalogView" :catalog="catalog" :key="catalog.href">
+        <Catalog v-for="catalog in catalogView" :catalog="catalog" :key="catalog.href" :selectedKeywords="selectedKeywords" @keyword-click="toggleKeyword">
           <template #footer="{data}">
             <slot name="catalogFooter" :data="data" />
           </template>
@@ -49,6 +50,7 @@ export default {
     Catalog,
     Loading,
     Pagination: () => import('./Pagination.vue'),
+    ResetButton: () => import('./ResetButton.vue'),
     SearchBox: () => import('./SearchBox.vue'),
     SortButtons: () => import('./SortButtons.vue'),
     Multiselect: () => import('vue-multiselect'),
@@ -142,34 +144,33 @@ export default {
       return this.searchTerm || this.selectedKeywords.length > 0;
     },
     catalogView() {
-      if (this.hasMore) {
-        return this.catalogs;
-      }
-      // Filter
       let catalogs = this.allCatalogs;
-      if (this.hasSearchCritera) {
+      // Keyword filtering applies even when more catalogs are loading
+      if (this.selectedKeywords.length > 0) {
         catalogs = catalogs.filter(catalog => {
-          if (this.selectedKeywords.length > 0 && catalog instanceof STAC && Array.isArray(catalog.keywords)) {
-            let hasKeywords = this.selectedKeywords.every(keyword => catalog.keywords.includes(keyword));
-            if (!hasKeywords) {
-              return false;
-            }
+          if (catalog instanceof STAC && Array.isArray(catalog.keywords)) {
+            return this.selectedKeywords.every(keyword => catalog.keywords.includes(keyword));
           }
-          if (this.searchTerm) {
-            let haystack = [ catalog.title ];
-            if (catalog instanceof STAC && this.isComplete) {
-              haystack.push(catalog.id);
-              if (Array.isArray(catalog.keywords)) {
-                haystack = haystack.concat(catalog.keywords);
-              }
-            }
-            return Utils.search(this.searchTerm, haystack);
-          }
-          return true;
+          return false;
         });
       }
-      // Sort
-      if (!this.hasMore && !this.apiFilters.sortby && this.sort !== 0) {
+      if (this.hasMore) {
+        return catalogs;
+      }
+      // Text search and sort only apply when all catalogs are loaded
+      if (this.searchTerm) {
+        catalogs = catalogs.filter(catalog => {
+          let haystack = [ catalog.title ];
+          if (catalog instanceof STAC && this.isComplete) {
+            haystack.push(catalog.id);
+            if (Array.isArray(catalog.keywords)) {
+              haystack = haystack.concat(catalog.keywords);
+            }
+          }
+          return Utils.search(this.searchTerm, haystack);
+        });
+      }
+      if (!this.apiFilters.sortby && this.sort !== 0) {
         const collator = new Intl.Collator(this.uiLanguage);
         catalogs = catalogs.slice(0).sort((a,b) => collator.compare(getDisplayTitle(a), getDisplayTitle(b)));
         if (this.sort === -1) {
@@ -232,6 +233,14 @@ export default {
     },
     limitText(count) {
       return this.$t("multiselect.andMore", {count});
+    },
+    toggleKeyword(keyword) {
+      const idx = this.selectedKeywords.indexOf(keyword);
+      if (idx === -1) {
+        this.selectedKeywords.push(keyword);
+      } else {
+        this.selectedKeywords.splice(idx, 1);
+      }
     }
   }
 };
@@ -250,6 +259,12 @@ export default {
     flex-grow: 1;
     flex-basis: 300px;
     min-width: 300px;
+  }
+
+  > .btn {
+    flex: none;
+    min-width: auto;
+    align-self: center;
   }
 }
 </style>

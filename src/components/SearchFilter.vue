@@ -106,7 +106,7 @@
       </b-card-body>
       <b-card-footer>
         <b-button type="submit" variant="primary">{{ $t('submit') }}</b-button>
-        <b-button type="reset" variant="danger" class="ml-3">{{ $t('reset') }}</b-button>
+        <ResetButton type="reset" />
       </b-card-footer>
     </b-card>
   </b-form>
@@ -176,6 +176,7 @@ export default {
     QueryableInput: () => import('./QueryableInput.vue'),
     Loading,
     MapSelect: () => import('./maps/MapSelect.vue'),
+    ResetButton: () => import('./ResetButton.vue'),
     SortButtons: () => import('./SortButtons.vue'),
     Multiselect
   },

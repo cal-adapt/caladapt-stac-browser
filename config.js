@@ -47,7 +47,7 @@ module.exports = {
     showThumbnailsAsAssets: false,
     searchResultsPerPage: null,
     itemsPerPage: null,
-    collectionsPerPage: null,
+    collectionsPerPage: 1000,
     maxEntriesPerPage: 1000,
     defaultThumbnailSize: null,
     crossOriginMedia: null,

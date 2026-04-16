@@ -161,9 +161,16 @@ export default {
         }
       } else if (!this.apiFilters.sortby && Array.isArray(this.collectionOrder) && this.collectionOrder.length > 0) {
         const collator = new Intl.Collator(this.uiLanguage);
+        const getId = (c) => {
+          if (c.id) return c.id;
+          // fall back to last path segment of href for unloaded link objects
+          const href = c.href || c.getAbsoluteUrl?.() || '';
+          const parts = href.split('/').filter(Boolean);
+          return parts[parts.length - 1] || href;
+        };
         catalogs = catalogs.slice(0).sort((a, b) => {
-          const ai = this.collectionOrder.indexOf(a.id ?? a.href);
-          const bi = this.collectionOrder.indexOf(b.id ?? b.href);
+          const ai = this.collectionOrder.indexOf(getId(a));
+          const bi = this.collectionOrder.indexOf(getId(b));
           if (ai !== -1 && bi !== -1) return ai - bi;
           if (ai !== -1) return -1;
           if (bi !== -1) return 1;

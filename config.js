@@ -38,7 +38,10 @@ module.exports = {
     pathPrefix: "/",
     historyMode: "hash",
     cardViewMode: "cards",
-    cardViewSort: "asc",
+    cardViewSort: null,
+    // Custom collection display order. Collections listed here appear first (in order),
+    // remaining collections follow alphabetically. Use exact collection IDs.
+    collectionOrder: ["wrf-ucla", "wrf-cae", "loca2", "typical-met-year", "standard-year"],
     showKeywordsInItemCards: false,
     showKeywordsInCatalogCards: true,
     showThumbnailsAsAssets: false,

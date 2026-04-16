@@ -104,7 +104,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['cardViewSort', 'uiLanguage']),
+    ...mapState(['cardViewSort', 'collectionOrder', 'uiLanguage']),
     ...mapGetters(['getStac']),
     catalogCount() {
       if (this.catalogs.length !== this.catalogView.length) {
@@ -159,6 +159,16 @@ export default {
         if (this.sort === -1) {
           catalogs = catalogs.reverse();
         }
+      } else if (!this.apiFilters.sortby && Array.isArray(this.collectionOrder) && this.collectionOrder.length > 0) {
+        const collator = new Intl.Collator(this.uiLanguage);
+        catalogs = catalogs.slice(0).sort((a, b) => {
+          const ai = this.collectionOrder.indexOf(a.id ?? a.href);
+          const bi = this.collectionOrder.indexOf(b.id ?? b.href);
+          if (ai !== -1 && bi !== -1) return ai - bi;
+          if (ai !== -1) return -1;
+          if (bi !== -1) return 1;
+          return collator.compare(getDisplayTitle(a), getDisplayTitle(b));
+        });
       }
       if (this.hasMore) {
         return catalogs;

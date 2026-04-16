@@ -16,7 +16,7 @@
         v-if="showKeywordsInCatalogCards && keywords.length > 0"
         :keywords="keywords"
         variant="secondary"
-        :clickable="true"
+        :clickable="clickableKeywords"
         :activeKeywords="selectedKeywords"
         @keyword-click="$emit('keyword-click', $event)"
       />
@@ -56,6 +56,10 @@ export default {
     selectedKeywords: {
       type: Array,
       default: () => []
+    },
+    clickableKeywords: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {

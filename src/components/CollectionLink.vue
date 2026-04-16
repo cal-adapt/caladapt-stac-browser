@@ -1,7 +1,7 @@
 <template>
   <section v-if="collection" class="parent-collection card-list mb-4">
     <h2>{{ $tc('stacCollection') }}</h2>
-    <Catalog :catalog="collection" :showThumbnail="showThumbnail" />
+    <Catalog :catalog="collection" :showThumbnail="showThumbnail" :clickableKeywords="false" />
   </section>
 </template>
 

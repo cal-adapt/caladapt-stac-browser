@@ -15,7 +15,7 @@
           <template v-if="Array.isArray(asset.roles)">
             <b-badge v-for="role in sortedRoles" :key="role" :variant="role === 'data' ? 'primary' : 'secondary'" class="role">{{ displayRole(role) }}</b-badge>
           </template>
-          <b-badge v-if="shortFileFormat" variant="dark" class="format" :title="fileFormat"><span v-html="shortFileFormat" /></b-badge>
+          <b-badge v-if="shortFileFormat" variant="secondary" class="format" :title="fileFormat"><span v-html="shortFileFormat" /></b-badge>
         </div>
       </b-button>
     </b-card-header>

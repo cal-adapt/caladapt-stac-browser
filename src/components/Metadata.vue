@@ -142,6 +142,7 @@ export default {
   .metadata {
     .card {
       border: 0;
+      background: transparent;
       margin-top: $block-margin;
       margin-bottom: $block-margin;
       text-align: left;

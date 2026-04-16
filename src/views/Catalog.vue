@@ -232,6 +232,11 @@ export default {
           console.error(error);
         }
       }
+    },
+    nextCollectionsLink(link) {
+      if (link) {
+        this.loadMoreCollections();
+      }
     }
   },
   methods: {

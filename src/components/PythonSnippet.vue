@@ -13,13 +13,12 @@
 
 <script>
 const CLIMAKITAE_WRF_COLLECTIONS = new Set([
-  'wrf-ucsd',
   'wrf-ucla',
   'wrf-cae',
 ]);
 
 const CLIMAKITAE_LOCA2_COLLECTIONS = new Set([
-  'loca2-gridded',
+  'loca2',
 ]);
 
 const CLIMAKITAE_REN_COLLECTIONS = new Set([

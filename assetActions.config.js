@@ -1,5 +1,6 @@
 //import Felt from './src/actions/assets/Felt.js';
 import Cesium from './src/actions/assets/Cesium.js';
+import CSVPreview from './src/actions/assets/CSVPreview.js';
 import CopcViewer from './src/actions/assets/CopcViewer.js';
 import F3D from './src/actions/assets/F3D.js';
 import ThreePipe from './src/actions/assets/ThreePipe.js';
@@ -13,6 +14,7 @@ import S3Download from './src/actions/assets/S3Download.js';
 export default {
   //Felt
   Cesium,
+  CSVPreview,
   CopcViewer,
   F3D,
   ThreePipe,

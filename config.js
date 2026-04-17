@@ -41,7 +41,7 @@ module.exports = {
     cardViewSort: null,
     // Custom collection display order. Collections listed here appear first (in order),
     // remaining collections follow alphabetically. Use exact collection IDs.
-    collectionOrder: ["wrf-ucla", "wrf-cae", "loca2", "typical-met-year", "standard-year"],
+    collectionOrder: ["wrf-ucla", "wrf-cae", "pv-generation", "wind-generation", "loca2", "loca2-county", "typical-met-year", "standard-year"],
     showKeywordsInItemCards: false,
     showKeywordsInCatalogCards: true,
     showThumbnailsAsAssets: false,

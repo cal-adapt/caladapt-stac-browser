@@ -2,7 +2,7 @@
   <div>
     <b-popover
       v-if="stacUrl" id="popover-link" custom-class="popover-large" target="popover-link-btn"
-      triggers="focus" placement="bottom" container="stac-browser" :title="$t('source.title')"
+      triggers="click" placement="bottom" container="stac-browser" :title="$t('source.title')"
     >
       <template v-if="stac">
         <b-row v-if="stacId" class="stac-id">

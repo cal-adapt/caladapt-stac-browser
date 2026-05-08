@@ -22,7 +22,7 @@
             </b-row>
           </section>
         </section>
-        <CollectionOverview v-if="isCollection" :data="data" class="mb-4" />
+
         <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
         <Assets v-if="hasItemAssets && !hasItems" :assets="itemAssets" :context="data" :definition="true" />
         <Providers v-if="providers" :providers="providers" />
@@ -76,7 +76,7 @@ export default {
   name: "Catalog",
   components: {
     AnonymizedNotice: () => import('../components/AnonymizedNotice.vue'),
-    CollectionOverview: () => import('../components/CollectionOverview.vue'),
+
     Assets: () => import('../components/Assets.vue'),
     BTabs,
     BTab,
@@ -136,7 +136,6 @@ export default {
         'stac_browser',
         // pgSTAC returns a 'features' field; not useful to display
         'features',
-        // Rendered in CollectionOverview section
         'caladapt:variables',
         'caladapt:spatial_resolution',
         'caladapt:temporal_resolution',

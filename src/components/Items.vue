@@ -7,7 +7,7 @@
     </header>
 
     <Pagination
-      v-if="showPagination && !tableView" ref="topPagination" class="mb-3" :class="{'mr-3': allowFilter}"
+      v-if="showPagination" ref="topPagination" class="mb-3" :class="{'mr-3': allowFilter}"
       :pagination="pagination" placement="top" @paginate="paginate"
     />
     <template v-if="allowFilter">
@@ -27,21 +27,9 @@
 
     <section class="list">
       <Loading v-if="loading" fill top />
-      <template v-if="chunkedItems.length > 0">
-        <b-table
-          v-if="tableView"
-          :items="tableRows" :fields="tableFields"
-          small hover responsive
-          class="items-table"
-        >
-          <template #cell(title)="{ item }">
-            <b-link :href="item._href">{{ item.title }}</b-link>
-          </template>
-        </b-table>
-        <div v-else class="card-grid">
-          <Item v-for="item in chunkedItems" :item="item" :key="item.href" />
-        </div>
-      </template>
+      <div v-if="chunkedItems.length > 0" class="card-grid">
+        <Item v-for="item in chunkedItems" :item="item" :key="item.href" />
+      </div>
       <b-alert v-else :variant="hasFilters ? 'warning' : 'info'" show>
         <template v-if="hasFilters">{{ $t('search.noItemsFound') }}</template>
         <template v-else>{{ $t('items.noneAvailableForCollection') }}</template>
@@ -57,7 +45,7 @@
 import Item from './Item.vue';
 import Loading from './Loading.vue';
 import Pagination from './Pagination.vue';
-import { BCollapse, BIconSearch, BTable, BLink } from "bootstrap-vue";
+import { BCollapse, BIconSearch } from "bootstrap-vue";
 import Utils from '../utils';
 import { getDisplayTitle } from '../models/stac';
 import { mapState } from 'vuex';
@@ -67,8 +55,6 @@ export default {
   components: {
     BCollapse,
     BIconSearch,
-    BLink,
-    BTable,
     Item,
     SearchFilter: () => import('./SearchFilter.vue'),
     Loading,
@@ -115,10 +101,6 @@ export default {
     count: {
       type: Number,
       default: null
-    },
-    tableView: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -163,26 +145,6 @@ export default {
       else {
         return items;
       }
-    },
-    tableRows() {
-      return this.chunkedItems.map(item => {
-        const props = item.properties || {};
-        return {
-          _href: item.href,
-          title: getDisplayTitle(item),
-          'Variable':   props.variable_label || props.variable_id || null,
-          'Model':      props['cmip6:source_id'] || null,
-          'Scenario':   props['cmip6:experiment_id'] || null,
-          'Grid':       props['cmip6:grid_label'] || null,
-          'Temporal':   props['cmip6:table_id'] || null,
-        };
-      });
-    },
-    tableFields() {
-      const fixed = [{ key: 'title', label: 'Item', sortable: true }];
-      const candidates = ['Variable', 'Model', 'Scenario', 'Grid', 'Temporal'];
-      const present = candidates.filter(k => this.tableRows.some(r => r[k] != null));
-      return [...fixed, ...present.map(k => ({ key: k, sortable: true }))];
     },
     showPagination() {
       if (this.api) {

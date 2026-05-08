@@ -22,29 +22,27 @@
             </b-row>
           </section>
         </section>
-
-        <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
-        <Assets v-if="hasItemAssets && !hasItems" :assets="itemAssets" :context="data" :definition="true" />
-        <Providers v-if="providers" :providers="providers" />
-        <Metadata class="mb-4" :type="data.type" :data="data" :ignoreFields="ignoredMetadataFields" />
-      </b-col>
-      <b-col class="catalogs-container" v-if="hasCatalogs">
-        <Catalogs :catalogs="catalogs" :hasMore="!!nextCollectionsLink" @loadMore="loadMoreCollections" />
-      </b-col>
-      <b-col class="items-container" v-if="hasItems || hasItemAssets">
         <section v-if="isCollection" class="mb-4">
-          <h2>Spatial Coverage</h2>
           <b-card no-body class="maps-preview">
             <b-tabs v-model="tab" ref="tabs" pills card vertical end>
-              <b-tab :title="$t('map')" no-body>
+              <b-tab v-if="isCollection" :title="$t('map')" no-body>
                 <Map :stac="data" v-bind="mapData" @changed="dataChanged" @empty="handleEmptyMap" onfocusOnly popover />
               </b-tab>
             </b-tabs>
           </b-card>
         </section>
+        <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
+        <Assets v-if="hasItemAssets && !hasItems" :assets="itemAssets" :context="data" :definition="true" />
+        <Providers v-if="providers" :providers="providers" />
+        <Metadata class="mb-4" :type="data.type" :data="data" :ignoreFields="ignoredMetadataFields" />
+
+      </b-col>
+      <b-col class="catalogs-container" v-if="hasCatalogs">
+        <Catalogs :catalogs="catalogs" :hasMore="!!nextCollectionsLink" @loadMore="loadMoreCollections" />
+      </b-col>
+      <b-col class="items-container" v-if="hasItems || hasItemAssets">
         <Items
           :stac="data" :items="items" :api="isApi"
-          :tableView="isCollection"
           :showFilters="showFilters" :apiFilters="filters"
           :pagination="itemPages" :loading="apiItemsLoading"
           :count="apiItemsNumberMatched"
@@ -76,7 +74,6 @@ export default {
   name: "Catalog",
   components: {
     AnonymizedNotice: () => import('../components/AnonymizedNotice.vue'),
-
     Assets: () => import('../components/Assets.vue'),
     BTabs,
     BTab,
@@ -135,11 +132,7 @@ export default {
         // Special handling for the STAC Browser config
         'stac_browser',
         // pgSTAC returns a 'features' field; not useful to display
-        'features',
-        'caladapt:variables',
-        'caladapt:spatial_resolution',
-        'caladapt:temporal_resolution',
-        'caladapt:spatial_type'
+        'features'
       ]
     };
   },
@@ -290,7 +283,6 @@ export default {
     margin-bottom: 0;
   }
 
-
   @include media-breakpoint-up(lg) {
     &.collection.empty .meta {
       column-count: 2;
@@ -336,11 +328,6 @@ export default {
         order: 3;
       }
     }
-  }
-
-
-  .items-container .map {
-    height: 250px;
   }
 
   .metadata .card-columns {

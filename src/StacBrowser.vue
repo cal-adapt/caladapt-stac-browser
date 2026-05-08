@@ -13,7 +13,7 @@
                 <b-icon-book /><span class="button-label">API Docs</span>
               </b-button>
               <b-button v-if="url" size="sm" variant="primary" id="popover-link-btn"
-                :title="$t('source.detailsAboutSource')" tag="a" tabindex="0">
+                :title="$t('source.detailsAboutSource')">
                 <b-icon-info-lg /><span class="button-label">{{ $t('source.label') }}</span>
               </b-button>
               <b-button v-if="calAdaptUrl" variant="primary" size="sm" :href="calAdaptUrl" target="_blank" title="Cal-Adapt Website">

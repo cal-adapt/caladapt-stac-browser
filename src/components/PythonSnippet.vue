@@ -14,7 +14,7 @@
 <script>
 const CLIMAKITAE_WRF_COLLECTIONS = new Set([
   'wrf-ucla',
-  'wrf-cae',
+  'wrf-derived-vars',
 ]);
 
 const CLIMAKITAE_LOCA2_COLLECTIONS = new Set([

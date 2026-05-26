@@ -40,6 +40,7 @@
               </b-tab>
             </b-tabs>
           </b-card>
+          <p class="map-subtitle">Displaying {{ items.length }} items on current page. Use filters or pagination to explore more.</p>
         </section>
         <Items
           :stac="data" :items="items" :api="isApi"
@@ -137,7 +138,8 @@ export default {
         // pgSTAC returns a 'features' field; not useful to display
         'features',
         // Rendered by CollectionOverview
-        'caladapt:variable_labels'
+        'caladapt:variable_labels',
+        'caladapt:station_labels'
       ]
     };
   },
@@ -333,6 +335,13 @@ export default {
         order: 3;
       }
     }
+  }
+
+  .map-subtitle {
+    font-size: 0.78rem;
+    color: #6c757d;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
   }
 
   .metadata .card-columns {

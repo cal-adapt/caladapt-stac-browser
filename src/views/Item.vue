@@ -27,6 +27,7 @@
               </b-tab>
             </b-tabs>
           </b-card>
+          <p class="map-subtitle">Map shows the spatial extent of this item.</p>
         </section>
         <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
         <Links v-if="additionalLinks.length > 0" :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
@@ -116,6 +117,13 @@ export default {
       max-width: 100%;
       min-width: 100%;
     }
+  }
+
+  .map-subtitle {
+    font-size: 0.78rem;
+    color: #6c757d;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
   }
 
   .metadata .card-columns {

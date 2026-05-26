@@ -122,13 +122,13 @@ export default {
       if (!href.startsWith('s3://')) return null;
 
       if (this.mediaType.includes('zarr') || href.endsWith('.zarr')) {
-        return `import xarray as xr\n\nds = xr.open_zarr("${href}")\nds`;
+        return `import xarray as xr\n\nds = xr.open_zarr("${href}", storage_options={"anon": True})\nds`;
       }
       if (this.mediaType.includes('netcdf') || href.endsWith('.nc')) {
-        return `import xarray as xr\n\nds = xr.open_dataset("${href}")\nds`;
+        return `import xarray as xr\n\nds = xr.open_dataset("${href}", storage_options={"anon": True})\nds`;
       }
       if (this.mediaType === 'text/csv' || href.endsWith('.csv')) {
-        return `import pandas as pd\n\ndf = pd.read_csv("${href}")\ndf.head()`;
+        return `import pandas as pd\n\ndf = pd.read_csv("${href}", storage_options={"anon": True})\ndf.head()`;
       }
       return null;
     },

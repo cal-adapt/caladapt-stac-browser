@@ -96,13 +96,6 @@
           <SortButtons v-if="sortTerm && sortTerm.value" class="mt-1" :value="sortOrder" enforce @input="sortDirectionSet" />
         </b-form-group>
 
-        <b-form-group class="limit" :label="$t('search.itemsPerPage')" :label-for="ids.limit" :description="$t('search.itemsPerPageDescription', {maxItems})">
-          <b-form-input
-            :id="ids.limit" :value="query.limit" @change="setLimit" min="1"
-            :max="maxItems" type="number"
-            :placeholder="limitPlaceholder"
-          />
-        </b-form-group>
       </b-card-body>
       <b-card-footer>
         <b-button type="submit" variant="primary">{{ $t('submit') }}</b-button>

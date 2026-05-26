@@ -8,7 +8,7 @@
 
     <Pagination
       v-if="showPagination" ref="topPagination" class="mb-3" :class="{'mr-3': allowFilter}"
-      :pagination="pagination" placement="top" @paginate="paginate"
+      :pagination="pagination" placement="top" :itemCount="itemCount" :pageSize="items.length" @paginate="paginate"
     />
     <template v-if="allowFilter">
       <b-button v-if="api" class="mb-3" v-b-toggle.itemFilter :variant="hasFilters && !filtersOpen ? 'primary' : 'outline-primary'">

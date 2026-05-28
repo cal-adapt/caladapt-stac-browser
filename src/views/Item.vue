@@ -2,22 +2,6 @@
   <div class="item" :key="data.id">
     <b-row>
       <b-col class="left">
-        <section class="mb-4">
-          <b-card no-body class="maps-preview">
-            <b-tabs v-model="tab" ref="tabs" card pills vertical end>
-              <b-tab :title="$t('map')" no-body>
-                <Map :stac="data" :assets="selectedAssets" @changed="dataChanged" @empty="handleEmptyMap" />
-              </b-tab>
-              <b-tab v-if="hasThumbnails" :title="$t('thumbnails')" no-body>
-                <Thumbnails :thumbnails="thumbnails" />
-              </b-tab>
-            </b-tabs>
-          </b-card>
-        </section>
-        <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
-        <Links v-if="additionalLinks.length > 0" :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
-      </b-col>
-      <b-col class="right">
         <section class="intro">
           <h2 v-if="data.properties.description">{{ $t('description') }}</h2>
           <DeprecationNotice v-if="showDeprecation" :data="data" />
@@ -30,6 +14,23 @@
         <CollectionLink v-if="collectionLink" :link="collectionLink" />
         <Providers v-if="data.properties.providers" :providers="data.properties.providers" />
         <Metadata :data="data" type="Item" :ignoreFields="ignoredMetadataFields" />
+      </b-col>
+      <b-col class="right">
+        <section class="mb-4">
+          <b-card no-body class="maps-preview">
+            <b-tabs v-model="tab" ref="tabs" card pills vertical end>
+              <b-tab :title="$t('map')" no-body>
+                <Map :stac="data" :assets="selectedAssets" @changed="dataChanged" @empty="handleEmptyMap" />
+              </b-tab>
+              <b-tab v-if="hasThumbnails" :title="$t('thumbnails')" no-body>
+                <Thumbnails :thumbnails="thumbnails" />
+              </b-tab>
+            </b-tabs>
+          </b-card>
+          <p class="map-subtitle">Map shows the spatial extent of this item.</p>
+        </section>
+        <Assets v-if="hasAssets" :assets="assets" :context="data" :shown="selectedReferences" @showAsset="showAsset" />
+        <Links v-if="additionalLinks.length > 0" :title="$t('additionalResources')" :links="additionalLinks" :context="data" />
       </b-col>
     </b-row>
   </div>
@@ -116,6 +117,13 @@ export default {
       max-width: 100%;
       min-width: 100%;
     }
+  }
+
+  .map-subtitle {
+    font-size: 0.78rem;
+    color: #6c757d;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
   }
 
   .metadata .card-columns {

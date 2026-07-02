@@ -295,6 +295,7 @@ export default {
         'wrf-ucsd',
         'wrf-ucla',
         'wrf-cae',
+        'eh-metrics-mm-boundary-csv',
         'loca2-gridded',
         'loca2-county',
         'pv-generation',

@@ -11,7 +11,9 @@ export const QUERYABLE_TABLES = {
       'present-day': 'Present day (2014–2044)',
       'near-future': 'Near future (2025–2055)',
       'mid-century': 'Mid century (2038–2068)',
-      'mid-late-century': 'Mid-late century (2054–2084)'
+      'mid-late-century': 'Mid-late century (2054–2084)',
+      'historical': 'Historical Period (1981–2019)',
+      'time-based': 'Time-based (2015–2055)'
     }
   }
 };

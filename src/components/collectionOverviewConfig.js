@@ -33,6 +33,6 @@ export const QUERYABLE_TEXT = {
   },
   'percentile': {
     label: 'Percentiles',
-    values: { '05ptile': '5th percentile', '50ptile': '50th percentile (median)', '95ptile': '95th percentile' }
+    values: { '5ptile': '5th percentile', '50ptile': '50th percentile (median)', '95ptile': '95th percentile' }
   }
 };

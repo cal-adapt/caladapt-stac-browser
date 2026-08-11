@@ -8,10 +8,10 @@ export const QUERYABLE_TABLES = {
     heading: 'Time periods',
     nameLabel: 'Time period',
     values: {
-      'present-day': 'Present day (2014–2044)',
-      'near-future': 'Near future (2025–2055)',
-      'mid-century': 'Mid century (2038–2068)',
-      'mid-late-century': 'Mid-late century (2054–2084)',
+      'present-day': 'Present Day (1.2°C)',
+      'near-future': 'Near-Future (1.5°C)',
+      'mid-century': 'Mid-Century (2.0°C)',
+      'mid-late-century': 'Mid-Late-Century (2.5°C)',
       'historical': 'Historical Period (1981–2019)',
       'time-based': 'Time-based (2015–2055)'
     }

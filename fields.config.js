@@ -22,6 +22,12 @@ import { Registry } from '@radiantearth/stac-fields';
  * @param {string} type The type of the entity (e.g. `CatalogLike`, `Item`, `Asset`, `Link`, `Provider`).
  * @returns {string[]} The fields to ignore in the metadata rendering.
  */
-const ignoreMetadata = null;
+const ignoreMetadata = (object, fields) => fields.concat([
+  // pgSTAC adds a 'features' field to collections; not useful to display
+  'features',
+  // Shown as tables by the Cal-Adapt Dataset Overview widget
+  'caladapt:variable_labels',
+  'caladapt:station_labels'
+]);
 
 export { ignoreMetadata };

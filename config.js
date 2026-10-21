@@ -67,5 +67,8 @@ export default {
   transactionsRequireLogin: true,
   transactionsRequirePreflight: true,
   crs: {},
-  footerLinks: null
+  footerLinks: [
+    { label: "Cal-Adapt website", url: "https://cal-adapt.org" },
+    { label: "Cal-Adapt STAC Browser on GitHub", url: "https://github.com/cal-adapt/caladapt-stac-browser" }
+  ]
 };

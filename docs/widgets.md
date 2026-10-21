@@ -198,6 +198,7 @@ Each hook has an ID like `view-catalog-meta-start` that you use as the key in
 
 - `view-catalog-catalogs-end`
 - `view-catalog-catalogs-start`
+- `view-catalog-intro-end`
 - `view-catalog-items-end`
 - `view-catalog-items-start`
 - `view-catalog-meta-end`

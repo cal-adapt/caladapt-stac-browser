@@ -12,7 +12,7 @@ export default {
       }
     }
   ],
-  'view-catalog-meta-end': [
+  'view-catalog-intro-end': [
     {
       id: 'CollectionOverview',
       component: defineAsyncComponent(() => import('./src/caladapt/CollectionOverview.vue')),

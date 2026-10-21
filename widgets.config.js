@@ -8,7 +8,7 @@ export default {
     {
       id: 'Featured',
       props: {
-        entities: ['wrf-ucla', 'loca2', 'loca2-county', 'eh-metrics-mm-boundary-csv', 'pv-generation', 'wind-generation', 'typical-met-year', 'standard-year']
+        entities: ['loca2', 'wrf-ucla', 'historical-data-platform']
       }
     }
   ],

@@ -1,13 +1,13 @@
 <template>
   <div v-if="snippet" class="python-snippet mt-3">
-    <p class="snippet-label">{{ label }}</p>
-    <div class="snippet-block">
+    <div class="snippet-header">
+      <p class="snippet-label">{{ label }}</p>
       <div class="snippet-actions">
         <a v-if="climakitaeSnippet" href="https://github.com/cal-adapt/climakitae" target="_blank" rel="noopener noreferrer" class="snippet-btn">climakitae on GitHub</a>
         <button class="snippet-btn" @click="copy">{{ copied ? '✓ Copied' : 'Copy code' }}</button>
       </div>
-      <pre class="snippet-code"><code>{{ snippet }}</code></pre>
     </div>
+    <pre class="snippet-code"><code>{{ snippet }}</code></pre>
   </div>
 </template>
 
@@ -127,24 +127,21 @@ export default {
 </script>
 
 <style scoped>
-/* The code box itself uses STAC Browser's standard pre styling */
+/* The code box itself uses STAC Browser's standard pre styling (see theme/custom.scss) */
+.snippet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
 .snippet-label {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
   font-weight: 600;
-  margin-bottom: 0.4rem;
-}
-.snippet-block {
-  position: relative;
-}
-.snippet-code {
-  width: 100%;
   margin: 0;
 }
 .snippet-actions {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
   display: flex;
   gap: 0.3rem;
 }

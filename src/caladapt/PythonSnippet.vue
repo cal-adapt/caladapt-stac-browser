@@ -12,19 +12,34 @@
 </template>
 
 <script>
-const CLIMAKITAE_WRF_COLLECTIONS = new Set([
-  'wrf-ucla',
-  'wrf-derived-vars',
-]);
+// climakitae query methods, in order, and the item property each one takes.
+// The model name goes through modelName() because climakitae's catalog uses
+// official casing ("TaiESM1") while STAC IDs are lowercase ("taiesm1").
+const WRF_QUERY = [
+  ['activity_id', 'cmip6:activity_id'],
+  ['institution_id', 'cmip6:institution_id'],
+  ['source_id', 'cmip6:source_id'],
+  ['experiment_id', 'cmip6:experiment_id'],
+  ['table_id', 'cmip6:table_id'],
+  ['grid_label', 'cmip6:grid_label'],
+  ['variable_id', 'variable_id'],
+];
 
-const CLIMAKITAE_LOCA2_COLLECTIONS = new Set([
-  'loca2',
-]);
+const CLIMAKITAE_QUERIES = {
+  'wrf-ucla': { catalog: 'cadcat', query: WRF_QUERY },
+  'wrf-derived-vars': { catalog: 'cadcat', query: WRF_QUERY },
+  loca2: { catalog: 'cadcat', query: WRF_QUERY.filter(([method]) => method !== 'institution_id') },
+  'pv-generation': { catalog: 'renewable energy generation', query: [['installation', 'installation'], ...WRF_QUERY.slice(2)] },
+  'wind-generation': { catalog: 'renewable energy generation', query: [['installation', 'installation'], ...WRF_QUERY.slice(2)] },
+};
 
-const CLIMAKITAE_REN_COLLECTIONS = new Set([
-  'pv-generation',
-  'wind-generation',
-]);
+// Official names of the models in climakitae's catalogs
+const MODEL_NAMES = Object.fromEntries([
+  'ACCESS-CM2', 'CESM2', 'CESM2-LENS', 'CNRM-ESM2-1', 'EC-Earth3', 'EC-Earth3-Veg', 'ERA5', 'FGOALS-g3', 'GFDL-ESM4',
+  'HadGEM3-GC31-LL', 'INM-CM5-0', 'IPSL-CM6A-LR', 'KACE-1-0-G', 'MIROC6', 'MPI-ESM1-2-HR', 'MRI-ESM2-0', 'TaiESM1',
+].map(name => [name.toLowerCase(), name]));
+
+const modelName = id => MODEL_NAMES[String(id).toLowerCase()] || id;
 
 export default {
   name: 'PythonSnippet',
@@ -56,66 +71,24 @@ export default {
       return this.itemContext?.properties || {};
     },
     climakitaeSnippet() {
-      const col = this.collectionId;
+      const config = CLIMAKITAE_QUERIES[this.collectionId];
+      if (!config) {
+        return null;
+      }
       const p = this.itemProps;
-
-      if (CLIMAKITAE_WRF_COLLECTIONS.has(col)) {
-        return [
-          'import climakitae as ck',
-          '',
-          'cd = ck.ClimateData(verbosity=-1)',
-          'data = (cd',
-          '    .catalog("cadcat")',
-          `    .activity_id("${p['cmip6:activity_id']}")`,
-          `    .institution_id("${p['cmip6:institution_id']}")`,
-          `    .variable("${p.variable_id}")`,
-          `    .experiment_id("${p['cmip6:experiment_id']}")`,
-          `    .source_id("${p['cmip6:source_id']}")`,
-          `    .grid_label("${p['cmip6:grid_label']}")`,
-          '    .get()',
-          ')',
-          'data',
-        ].join('\n');
-      }
-
-      if (CLIMAKITAE_LOCA2_COLLECTIONS.has(col)) {
-        return [
-          'import climakitae as ck',
-          '',
-          'cd = ck.ClimateData(verbosity=-1)',
-          'data = (cd',
-          '    .catalog("cadcat")',
-          `    .activity_id("${p['cmip6:activity_id']}")`,
-          `    .variable("${p.variable_id}")`,
-          `    .experiment_id("${p['cmip6:experiment_id']}")`,
-          `    .source_id("${p['cmip6:source_id']}")`,
-          `    .grid_label("${p['cmip6:grid_label']}")`,
-          '    .get()',
-          ')',
-          'data',
-        ].join('\n');
-      }
-
-      if (CLIMAKITAE_REN_COLLECTIONS.has(col)) {
-        return [
-          'import climakitae as ck',
-          '',
-          'cd = ck.ClimateData(verbosity=-1)',
-          'data = (cd',
-          '    .catalog("renewable energy generation")',
-          `    .installation("${p.installation}")`,
-          `    .variable("${p.variable_id}")`,
-          `    .experiment_id("${p['cmip6:experiment_id']}")`,
-          `    .source_id("${p['cmip6:source_id']}")`,
-          `    .table_id("${p['cmip6:table_id']}")`,
-          `    .grid_label("${p['cmip6:grid_label']}")`,
-          '    .get()',
-          ')',
-          'data',
-        ].join('\n');
-      }
-
-      return null;
+      const value = (method, prop) => method === 'source_id' ? modelName(p[prop]) : p[prop];
+      return [
+        '# pip install climakitae  (version 1.5.10 or later)',
+        'import climakitae as ck',
+        '',
+        'cd = ck.ClimateData(verbosity=-1)',
+        'data = (cd',
+        `    .catalog("${config.catalog}")`,
+        ...config.query.map(([method, prop]) => `    .${method}("${value(method, prop)}")`),
+        '    .get()',
+        ')',
+        'data',
+      ].join('\n');
     },
     genericSnippet() {
       const href = this.href;

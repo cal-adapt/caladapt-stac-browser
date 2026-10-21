@@ -2,6 +2,7 @@
   <div class="asset-alternative">
     <h4 class="mb-4" v-html="fileFormat" />
     <HrefActions isAsset :data="asset" :shown="shown" @show="show" :auth="auth" />
+    <PythonSnippet :asset="asset" />
     <div class="mt-4" v-if="asset.description">
       <Description :description="asset.description" compact />
     </div>
@@ -25,7 +26,8 @@ export default {
   components: {
     Description,
     HrefActions,
-    MetadataGroups: defineAsyncComponent(() => import('./MetadataGroups.vue'))
+    MetadataGroups: defineAsyncComponent(() => import('./MetadataGroups.vue')),
+    PythonSnippet: defineAsyncComponent(() => import('../caladapt/PythonSnippet.vue'))
   },
   mixins: [
     StacFieldsMixin({ formatMediaType })

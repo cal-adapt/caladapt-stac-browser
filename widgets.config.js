@@ -8,7 +8,7 @@ export default {
     {
       id: 'Featured',
       props: {
-        entities: ['loca2', 'wrf-ucla', 'historical-data-platform']
+        entities: ['loca2', 'wrf-ucla', 'historical-data-platform', 'typical-met-year', 'standard-year', 'xmy-persist', 'xmy-shock']
       }
     }
   ],

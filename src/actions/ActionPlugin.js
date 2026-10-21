@@ -1,6 +1,6 @@
-import { BIconBoxArrowUpRight } from 'bootstrap-vue';
-import URI from 'urijs';
+import urijs from 'urijs';
 import i18n from "../i18n";
+import BIconBoxArrowUpRight from '~icons/bi/box-arrow-up-right';
 
 export default class ActionPlugin {
 
@@ -11,7 +11,7 @@ export default class ActionPlugin {
 
   get btnOptions() {
     let href;
-    if (this.uri instanceof URI) {
+    if (this.uri instanceof urijs) {
       href = this.uri.toString();
     }
     else if (typeof this.uri === 'string') {
@@ -20,7 +20,8 @@ export default class ActionPlugin {
     if (href) {
       return {
         href,
-        target: '_blank'
+        target: '_blank',
+        rel: 'noopener noreferrer',
       };
     }
     return {};
@@ -43,7 +44,13 @@ export default class ActionPlugin {
   }
 
   get text() {
-    return i18n.t('open');
+    return i18n.global.t('open');
+  }
+
+  // Tooltip for the button, shown especially when rendered compact (icon-only).
+  // Defaults to the button text.
+  get title() {
+    return this.text;
   }
 
 }

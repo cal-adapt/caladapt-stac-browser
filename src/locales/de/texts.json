@@ -15,12 +15,12 @@
       "generic": "Kopiere Adresse",
       "withSource": "Kopiere Adresse für {source}"
     },
-    "currentlyShown": "Dieses Asset wird derzeit angezeigt.",
+    "currentlyShown": "Diese Datei wird derzeit angezeigt.",
     "download": {
       "generic": "Herunterladen",
       "withSource": "Herunterladen von {source}"
     },
-    "inItems": "Datei in Unterelementen | Dateien in Unterelementen",
+    "inItems": "Verfügbare Datei in Datensätzen | verfügbare Dateien in Datensätzen",
     "role": {
       "data": "Daten",
       "metadata": "Metadaten"
@@ -36,20 +36,20 @@
       "title": "Anmeldedaten bereitstellen oder aktualisieren"
     },
     "chooseMethod": "Wähle Anmeldemethode",
-    "description": "Die angefragte Seite erfordert eine Anmeldung. Bitte die Anmeldedaten unten in das Textfeld eingeben.",
-    "loggedOut": "Sie wurden erfolgreich abgemeldet. Sie können das Fenster nun schließen.",
+    "description": "Die angefragte Seite erfordert eine Anmeldung. Bitte gib die Anmeldedaten unten in das Textfeld ein.",
+    "loggedOut": "Du wurdest erfolgreich abgemeldet. Du kannst das Fenster nun schließen.",
     "password": "Passwort",
     "required": "Anmeldung erforderlich",
     "schemeTypes": {
-      "http": "HTTP {scheme}",
-      "s3": "S3",
-      "signedUrl": "Signierte URL",
-      "oauth2": "OAuth 2",
       "apiKey": "API-Schlüssel",
-      "openIdConnect": "OpenID Connect"
+      "http": "HTTP {scheme}",
+      "oauth2": "OAuth 2",
+      "openIdConnect": "OpenID Connect",
+      "s3": "S3",
+      "signedUrl": "Signierte URL"
     },
     "title": "Anmelden",
-    "unauthorized": "Sie haben keine Berechtigung um diese Daten abzurufen. Bitte melden Sie sich an.",
+    "unauthorized": "Du hast keine Berechtigung, um diese Daten abzurufen. Bitte melde dich an.",
     "unsupported": "Nicht unterstützt",
     "unsupportedLong": "Die Anmeldemethode {method} wird von STAC Browser leider nicht unterstützt.",
     "user": "Benutzer"
@@ -61,16 +61,21 @@
     "temporalExtent": "Zeitliche Ausdehnung"
   },
   "catalogs": {
-    "filterByTitle": "Kataloge anhand des Titels filtern",
-    "filterByTitleAndMore": "Kataloge anhand von Titel, Beschreibung oder Schlüsselwörtern filtern",
+    "filterByTitle": "Anhand des Titels filtern",
+    "filterByTitleAndMore": "Anhand von Titel, Beschreibung oder Schlüsselwörtern filtern",
     "loadMore": "Lade mehr...",
-    "noMatches": "Keiner der Kataloge entspricht den Suchkriterien."
+    "noMatches": "Keiner der Einträge entspricht den Suchkriterien."
   },
   "checkbox": {
     "false": "Nein",
     "true": "Ja"
   },
+  "close": "Schließen",
   "copy": "Kopieren",
+  "copyErrors": {
+    "permission": "Kopieren nicht möglich. Bitte überprüfe die Berechtigungen des Browsers.",
+    "unsupported": "Die Zwischenablage ist in diesem Browser nicht verfügbar."
+  },
   "default": "Standardeinstellung",
   "defaultWithValue": "Standardeinstellung ({value})",
   "deprecated": "Abgekündigt",
@@ -86,30 +91,58 @@
   },
   "description": "Beschreibung",
   "errors": {
+    "apiListRequested": "Die Anfrage ist ungültig. Direkte Anfragen an die Endpunkte /collections und .../items werden derzeit nicht unterstützt.",
     "authFailed": "Die Anfrage ist fehlgeschlagen, die angegebenen Anmeldedaten sind möglicherweise fehlerhaft.",
     "badRequest": "Die Anfrage ist ungültig. Dies kann an ungültigen Parametern liegen, z.B. in einer Suchanfrage, oder ein Fehler im STAC Browser sein.",
-    "contactProvider": "Bitte wenden Sie sich an den Dienstanbieter, um dieses Problem zu lösen.",
+    "contactProvider": "Bitte wende dich an den Diensteanbieter, um dieses Problem zu lösen.",
     "default": "Die angeforderte Seite konnte nicht geladen werden.",
-    "forbidden": "Die für diese Anfrage angegebenen Anmeldedaten sind ungültig, bspw. ein abgelaufener oder ungültiger API-Schlüssel. Bitte geben Sie andere Anmeldedaten an und versuchen Sie es erneut.",
-    "invalidJsonObject": "Die Antwort des Dienstanbieters ist kein gültiges JSON-Objeckt.",
-    "invalidStacCollections": "Die Antwort des Dienstanbieters ist keine gültige Liste mit Katalogen.",
-    "invalidStacItems": "Die Antwort des Dienstanbieters ist keine gültige Liste mit Elementen.",
+    "forbidden": "Die für diese Anfrage angegebenen Anmeldedaten sind ungültig, bspw. ein abgelaufener oder ungültiger API-Schlüssel. Bitte gib andere Anmeldedaten an und versuche es erneut.",
+    "invalidJsonObject": "Die Antwort des Diensteanbieters ist kein gültiges JSON-Objekt.",
+    "invalidStacCollections": "Die Antwort des Diensteanbieters ist keine gültige Liste mit Produkten.",
+    "invalidStacItems": "Die Antwort des Diensteanbieters ist keine gültige Liste mit Datensätzen.",
     "labels": {
       "cause": "Ursache:",
       "code": "Fehlercode:",
       "reason": "Grund:",
       "requestURL": "Anfrageadresse:"
     },
-    "loadApiCollectionsFailed": "Die Kataloge des Dienstanbieters konnten nicht geladen werden.",
-    "loadApiItemsFailed": "Die Elemente des Dienstanbieters konnten nicht geladen werden.",
-    "loadFilteredItems": "Das Laden einer gefilterten Liste von Elementen ist leider fehlgeschlagen.",
-    "loadItems": "Das Laden der Liste der Elemente ist leider fehlgeschlagen.",
+    "loadApiCollectionsFailed": "Die Produkte des Diensteanbieters konnten nicht geladen werden.",
+    "loadApiItemsFailed": "Die Datensätze des Diensteanbieters konnten nicht geladen werden.",
+    "loadFilteredItems": "Das Laden einer gefilterten Liste von Datensätzen ist leider fehlgeschlagen.",
+    "loadItems": "Das Laden der Liste der Datensätze ist leider fehlgeschlagen.",
+    "missingPermissions": "Die für diese Anfrage angegebenen Anmeldedaten haben nicht die erforderlichen Berechtigungen.",
     "networkError": "Dieses Problem kann auftreten, wenn Server den externen Zugriff über Webbrowser nicht zulassen (bspw. wenn keine CORS-Kopfzeilen vorhanden sind). @:errors.contactProvider",
     "noExternalAccess": "Der Zugriff auf externe Kataloge ist nicht erlaubt!",
     "notFound": "Die angeforderte Seite existiert nicht. @:errors.contactProvider",
     "serverError": "Auf dem Server ist ein Problem aufgetreten. @:errors.contactProvider",
     "title": "Fehler",
-    "unauthorized": "Der Anfrage fehlen die Anmeldedaten, bspw. ein API-Schlüssel. Bitte geben Sie Ihre Anmeldedaten an und versuchen Sie es erneut."
+    "unauthorized": "Der Anfrage fehlen die Anmeldedaten, bspw. ein API-Schlüssel. Bitte gib deine Anmeldedaten an und versuche es erneut."
+  },
+  "exampleCode": {
+    "title": "Quelltext-Beispiele",
+    "storeAs": "Quelltext speichern als:",
+    "installDependencies": "Installieren der Abhängigkeiten:"
+  },
+  "externalInfo": "Dieser Inhalt ({type}) stammt aus einer externen Datenquelle.",
+  "favorites": {
+    "add": "Zu Favoriten hinzufügen",
+    "empty": "Es wurden noch keine Favoriten hinzugefügt. Favoriten können über den 'Favorit'-Button auf der Seite eines Katalogs, Produkts oder Datensatzes hinzugefügt werden.",
+    "export": "Exportieren",
+    "exportDescription": "Favoriten in eine Datei exportieren, z. B. um sie in einem anderen Browser zu importieren.",
+    "exportFormats": {
+      "csv": "CSV",
+      "excel": "Excel",
+      "json": "JSON",
+      "stac": "STAC-Katalog"
+    },
+    "import": "Importieren",
+    "importDescription": "Favoriten aus einer zuvor exportierten Datei importieren.",
+    "importInvalid": "Die ausgewählte Datei enthält keine Favoriten.",
+    "imported": "{count} neue Favoriten wurden importiert.",
+    "label": "Favorit",
+    "localOnly": "Favoriten werden nur lokal in diesem Webbrowser gespeichert. Sie werden nicht zwischen Geräten oder Browsern synchronisiert.",
+    "remove": "Aus Favoriten entfernen",
+    "title": "Favoriten"
   },
   "featureExperimental": "Diese Funktion ist noch experimentell und kann unerwartete Ergebnisse verursachen!",
   "features": {
@@ -125,15 +158,16 @@
   },
   "goBack": {
     "description": "Gehe zurück zu: {type}",
-    "label": "Zurück"
+    "label": "Zurück",
+    "refererDescription": "Gehe zurück zur zuletzt besuchten Seite im Katalog"
   },
   "goToCollection": {
-    "description": "Gehe zum dazugehörigen Katalog",
+    "description": "Gehe zum dazugehörigen Produkt",
     "descriptionWithTitle": "@:goToCollection.description: {title}",
-    "label": "Katalog"
+    "label": "Produkt"
   },
   "goToParent": {
-    "description": "Gehe ein Level hoch",
+    "description": "Gehe eine Ebene hoch",
     "descriptionWithTitle": "@:goToParent.description: {title}",
     "label": "Hoch"
   },
@@ -143,37 +177,72 @@
     "catalog": "Katalog",
     "load": "Laden",
     "selectStacIndex": "... oder wähle von {stacIndex}:",
-    "specifyCatalog": "Bitte gib einen STAC Katalog oder eine STAC API an...",
+    "specifyCatalog": "Bitte gib einen STAC-Katalog oder eine STAC API an...",
     "urlInvalid": "Die Adresse ist ungültig.",
     "urlMissingHost": "Der Adresse fehlt ein Host.",
     "urlMissingProtocol": "Der Adresse fehlt ein Protokoll."
   },
   "items": {
     "filter": "Filter",
+    "filterChangesNotApplied": "Die Filter wurden geändert, die Änderungen aber noch nicht angewendet.",
     "hideFilter": "Verstecke Filter",
     "noTime": "Keine Zeit angegeben",
-    "noneAvailableForCollection": "Für diesen Katalog sind keine Elemente verfügbar.",
+    "noneAvailableForCollection": "Für dieses Produkt sind keine Datensätze verfügbar.",
     "showFilter": "Zeige Filter"
   },
   "loading": "Lade...",
+  "manage": {
+    "addCollection": "Produkt hinzufügen",
+    "addItem": "Datensatz hinzufügen",
+    "confirmDeleteTitle": "Löschen bestätigen",
+    "confirmDeleteMessage": "Bist du sicher, dass du diese STAC-Ressource löschen möchtest?",
+    "create": "Hinzufügen",
+    "delete": "Löschen",
+    "discardDraft": "Wiederhergestellte Änderungen verwerfen",
+    "draftRestored": "Ungespeicherte Änderungen aus einer früheren Sitzung wurden wiederhergestellt.",
+    "edit": "Bearbeiten",
+    "leavePage": "Seite verlassen",
+    "save": "Speichern",
+    "noUndo": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "unsavedChangesLeave": "Du hast ungespeicherte Änderungen. Möchtest du die Seite wirklich verlassen?",
+    "unsavedChangesTitle": "Ungespeicherte Änderungen",
+    "validate": "Validieren"
+  },
   "map": "Karte",
   "mapping": {
     "attribution": {
-      "label": "i",
+      "collapseLabel": "✕",
       "description": "Namensnennungen",
-      "collapseLabel": "✕"
+      "label": "i"
     },
     "bboxSelect": {
       "add": "Klicke auf die Karte, um eine Box für die räumliche Ausdehnung zu erstellen.",
-      "remove": "Klicke in die Box, um sie zu entfernen."
+      "eastLon": "Östlicher Längengrad",
+      "error": {
+        "incomplete": "Koordinate fehlt",
+        "invalidLat": "Muss zwischen -90 und 90 liegen",
+        "invalidLon": "Muss zwischen -180 und 180 liegen",
+        "latOrder": "Südlicher Breitengrad muss kleiner als nördlicher Breitengrad sein",
+        "lonOrder": "Westlicher Längengrad muss kleiner als östlicher Längengrad sein"
+      },
+      "northLat": "Nördlicher Breitengrad",
+      "remove": "Klicke in die Box, um sie zu entfernen.",
+      "southLat": "Südlicher Breitengrad",
+      "westLon": "Westlicher Längengrad"
     },
     "close": "Schließen",
+    "displayLimit": {
+      "message": "Dieser Datensatz ist sehr groß und die Anzeige kann den Browser verlangsamen oder einfrieren.",
+      "showAnyway": "Trotzdem anzeigen",
+      "title": "Großer Datensatz"
+    },
     "fit": "Ansicht an räumliche Ausdehnung anpassen",
+    "focusHint": "Karte anklicken oder antippen, um zu zoomen und zu verschieben",
     "layers": {
-      "title": "Kartenebenen",
       "base": "Grundkarten",
-      "unnamed": "Unbenannt #{id}",
-      "footprint": "Räumliche Ausdehnung"
+      "footprint": "Räumliche Ausdehnung",
+      "title": "Kartenebenen",
+      "unnamed": "Unbenannt #{id}"
     },
     "location": {
       "description": "Springe zu deiner Position"
@@ -201,8 +270,8 @@
     "deselectLabel": "Enter zum Entfernen",
     "keywordsPlaceholder": "Schlüsselwörter auswählen",
     "placeholder": "Option auswählen",
-    "selectLabel": "Enter zum Selektieren",
-    "selectedLabel": "Selektiert"
+    "selectLabel": "Enter zum Auswählen",
+    "selectedLabel": "Ausgewählt"
   },
   "open": "Öffnen",
   "pagination": {
@@ -212,6 +281,16 @@
     "previous": "‹ Vorherige"
   },
   "poweredBy": "Generiert von {link}",
+  "programming": {
+    "csharp": "C#",
+    "curl": "cURL",
+    "go": "Go",
+    "java": "Java",
+    "javascript": "JavaScript",
+    "python": "Python",
+    "r": "R",
+    "rust": "Rust"
+  },
   "protocol": {
     "azure": "Microsoft Azure",
     "file": "Dateisystem (lokal)",
@@ -241,51 +320,74 @@
   "reset": "Zurücksetzen",
   "search": {
     "addCollections": "Hinzufügen mittels Enter-Taste",
+    "addDate": "Datum hinzufügen",
     "addFilter": "Filter hinzufügen",
-    "addItemIds": "Element-Identifikationsnummern hinzufügen mittels Enter-Taste",
-    "addSearchTerm": "Suchbegriff hinzufügen mittels Enter-Taste",
     "additionalFilters": "Weitere Filter",
+    "addItemIds": "Datensatz-Identifikatoren hinzufügen mittels Enter-Taste",
+    "addSearchTerm": "Suchbegriff hinzufügen mittels Enter-Taste",
+    "arrayInput": {
+      "addValue": "Wert hinzufügen mittels Enter-Taste",
+      "helpText": "Wert(e) eingeben"
+    },
+    "arrayContains": "Enthält alle",
+    "arrayContainsDescription": "Liste enthält alle angegebenen Werte",
+    "arrayContainedBy": "Ist Teilmenge von",
+    "arrayContainedByDescription": "Liste enthält einen Teil der angegebenen Werte",
+    "arrayEquals": "Genau übereinstimmend",
+    "arrayEqualsDescription": "Liste stimmt genau mit den angegebenen Werten überein (gleiche Elemente, beliebige Reihenfolge)",
+    "arrayOverlaps": "Enthält mindestens einen",
+    "arrayOverlapsDescription": "Liste enthält mindestens einen der angegebenen Werte",
+    "between": "zwischen",
+    "betweenOperatorDescription": "Prüft, ob ein numerischer Wert innerhalb des angegebenen Bereichs liegt. Die angegebenen Grenzen werden eingeschlossen.",
     "dateDescription": "Alle Zeiten in koordinierter Weltzeit (UTC).",
-    "enterCollections": "Gebe Katalog-Identifikationsnummern ein...",
-    "enterItemIds": "Gebe Element-Identifikationsnummern ein...",
-    "enterSearchTerms": "Gebe Suchbegriffe ein...",
+    "disabledDueToSingleDate": "Dieser Filter ist deaktiviert, da die Sammlung einen einzelnen Zeitpunkt als zeitliche Ausdehnung hat.",
+    "droppedFilters": "Die folgenden Filter werden hier nicht unterstützt und wurden entfernt: {filters}.",
+    "enterCollections": "Produkt-Identifikator eingeben...",
+    "enterItemIds": "Datensatz-Identifikatoren eingeben...",
+    "enterSearchTerms": "Suchbegriffe eingeben...",
     "equalTo": "entspricht genau",
     "filterBySpatialExtent": "Filtern nach räumlicher Ausdehnung",
-    "filterCollection": "Im Katalog filtern",
+    "filterCollection": "Im Produkt suchen",
     "freeText": "Suchbegriffe",
-    "freeTextDescription": "Suche nach mindestens einem der angegebene Begriffen in Feldern wie dem Titel und der Beschreibung.",
+    "freeTextDescription": "Suche nach mindestens einem der angegebenen Begriffe in Feldern wie dem Titel und der Beschreibung.",
     "greaterThan": "größer als",
     "greaterThanEqual": "größer als oder entspricht",
-    "itemIds": "Element-Identifikationsnummern",
-    "itemsPerPage": "Elemente pro Seite",
-    "itemsPerPageDescription": "Anzahl der Elemente die pro Seite angefragt wird, maximal {maxItems} Elemente.",
+    "in": "enthalten in",
+    "inOperatorDescription": "Prüft, ob ein Wert in der angegebenen Liste von Werten enthalten ist.",
+    "itemIds": "Datensatz-Identifikatoren",
+    "itemsPerPage": "Datensätze pro Seite",
+    "itemsPerPageDescription": "Anzahl der Datensätze die pro Seite angefragt wird, maximal {maxItems} Datensätze.",
     "lessThan": "kleiner als",
     "lessThanEqual": "kleiner als oder entspricht",
-    "likeOperatorDescription": "Platzhalterzeichen können verwendet werden. `_` entspricht einem einzelnen Zeichen, `%` entspricht einer beliebigen Anzahl an Zeichen. Um nach einem Platzhalterzeichen selber zu suchen, müssen ein `\\` vor das Zeichen gesetzt werden.",
+    "likeOperatorDescription": "Platzhalterzeichen können verwendet werden. `_` entspricht einem einzelnen Zeichen, `%` entspricht einer beliebigen Anzahl an Zeichen. Um nach einem Platzhalterzeichen selber zu suchen, muss ein `\\` vor das Zeichen gesetzt werden.",
     "logical": {
       "and": "Berücksichtige alle Filter (und)",
-      "or": "Berücksichtige mindestens einen der Filter (oder)"
+      "or": "Berücksichtige mindestens einen der Filter (oder)",
+      "not": "Negiere Filter"
     },
     "matches": "enthält etwa",
     "metaDescription": "Durchsuche die angebotenen Daten von {title}.",
-    "modifyCriteria": "Bitte die Suchkriterien ändern.",
-    "noFurtherItemsFound": "Keine weiteren Elemente verfügbar.",
-    "noItemsFound": "Keine Elemente gefunden für die angegebenen Filter.",
+    "modifyCriteria": "Bitte ändere die Suchkriterien.",
+    "noFurtherItemsFound": "Keine weiteren Datensätze verfügbar.",
+    "noItemsFound": "Keine Datensätze gefunden für die angegebenen Filter.",
+    "noOperatorsError": "STAC Browser unterstützt keine Operatoren für den Filter {queryable}.",
     "noOptions": "Noch nichts eingegeben",
     "notEqualTo": "entspricht nicht",
     "notFullySupported": "Eventuell werden nicht alle Optionen unterstützt.",
     "notSupported": "Suchen wird von dem Diensteanbieter nicht unterstützt.",
     "placeholder": "Suchen...",
-    "selectCollections": "Wähle Kataloge...",
-    "selectForItemSearch": "Markiere für Elementsuche",
+    "removeDate": "Datum entfernen",
+    "selectCollections": "Wähle Produkte...",
+    "selectDateRange": "Wähle Datumsbereich...",
+    "selectForItemSearch": "Markiere für Datensatzsuche",
     "spatialExtent": "Räumliche Ausdehnung",
     "tabs": {
-      "collections": "Kataloge durchsuchen",
-      "items": "Elemente durchsuchen"
+      "collections": "Produkte durchsuchen",
+      "items": "Datensätze durchsuchen"
     },
     "temporalExtent": "Zeitliche Ausdehnung",
     "title": "Suche",
-    "useInItemSearch": "Nutze Katalog in Elementsuche | Nutze {count} Kataloge in Elementsuche"
+    "useInItemSearch": "Nutze Produkt in Datensatzsuche | Nutze {count} Produkte in Datensatzsuche"
   },
   "showMore": "Zeige mehr...",
   "sidebar": {
@@ -306,17 +408,19 @@
     "conformanceClasses": "Konformitätsklasse",
     "detailsAboutSource": "Details über die STAC-Datenquelle",
     "extension": "Erweiterung",
+    "externalData": "Externe Datenquelle",
     "fileFormat": "Dateiformat",
-    "id": "Identifikationsnummer",
+    "id": "Identifikator",
     "invalid": "Nicht konform",
     "label": "Datenquelle",
     "language": {
       "label": "Sprache: {currentLanguage}",
       "onlyData": "Nur die Daten sind in dieser Sprache verfügbar!",
-      "onlyUI": "Nur die Benutzeroberfläsche ist in dieser Sprache verfügbar!",
+      "onlyUI": "Nur die Benutzeroberfläche ist in dieser Sprache verfügbar!",
       "switch": "Ändern der Sprache"
     },
     "locatedAt": "Die Datei mit den STAC-Metadaten befindet sich unter:",
+    "manage": "Verwalten",
     "share": {
       "bsky": "Bluesky",
       "email": "E-Mail",
@@ -325,8 +429,8 @@
       "message": "{title} ist verfügbar unter {url}",
       "sharePageWithOthers": "Teile die Adresse dieser Seite:",
       "title": "Teilen",
-      "x": "X (Twitter)",
-      "withOthers": "Teile diese Seite mit anderen"
+      "withOthers": "Teile diese Seite mit anderen",
+      "x": "X (Twitter)"
     },
     "stacExtension": "STAC-Erweiterung",
     "stacVersion": "STAC-Version",
@@ -358,16 +462,19 @@
       "type": "Datentyp"
     },
     "validationReport": {
-      "disclaimer": "Der Konformitätsbericht wird auf der Grundlage von Schemata erstellt, die oft nicht vollständig sind. Sie decken daher möglicherweise nicht alle Aspekte der STAC-Spezifikation und ihrer Erweiterungen ab. Der Konformitätsbericht ist keine Garantie dafür, dass die STAC-Daten vollständig mit der Spezifikation und ihren Erweiterungen konform ist.",
+      "disclaimer": "Der Konformitätsbericht wird auf der Grundlage von Schemata erstellt, die oft nicht vollständig sind. Sie decken daher möglicherweise nicht alle Aspekte der STAC-Spezifikation und ihrer Erweiterungen ab. Der Konformitätsbericht ist keine Garantie dafür, dass die STAC-Daten vollständig mit der Spezifikation und ihren Erweiterungen konform sind.",
       "result": "Ergebnis",
       "title": "Konformitätsbericht"
     }
   },
   "stacAssets": "Datei | Dateien",
   "stacCatalog": "Katalog | Kataloge",
-  "stacCollection": "Katalog | Kataloge",
-  "stacItem": "Element | Elemente",
+  "stacCollection": "Produkt | Produkte",
+  "stacEntity": "Ressource | Ressourcen",
+  "stacItem": "Datensatz | Datensätze",
   "submit": "Absenden",
+  "switchToDarkMode": "Wechsle in die dunkle Ansicht",
+  "switchToLightMode": "Wechsle in die helle Ansicht",
   "table": {
     "emptyFilteredText": "Es gibt keine Einträge die dem Filter entsprechen",
     "emptyText": "Keine Einträge verfügbar",
@@ -379,7 +486,7 @@
   },
   "thumbnails": "Vorschaubilder",
   "tree": {
-    "moreCollectionPagesAvailable": "Mehre Katalog-Seiten verfügbar",
+    "moreCollectionPagesAvailable": "Mehrere Seiten mit Produkten verfügbar",
     "noChildren": "Keine Unterpunkte verfügbar."
   },
   "view": {
@@ -392,5 +499,8 @@
       "title": "Anzeigen als Kacheln"
     },
     "title": "Anzeigeoptionen"
+  },
+  "widgets": {
+    "featured": "Empfohlen"
   }
 }

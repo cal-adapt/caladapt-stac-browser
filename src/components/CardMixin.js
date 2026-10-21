@@ -1,26 +1,33 @@
 import { mapState } from 'vuex';
-import { STAC } from 'stac-js';
 import Utils from '../utils';
+import { hasText } from 'stac-js/src/utils.js';
+import { STAC } from 'stac-js';
 
 export default {
-  name: 'CardMixin',
   props: {
     showThumbnail: {
       type: Boolean,
       default: true
+    },
+    // The view mode of the containing list ('list' or 'cards').
+    // If not given, falls back to the global card view mode chosen by the user.
+    viewMode: {
+      type: String,
+      default: null,
+      validator: value => value === null || ['list', 'cards'].includes(value)
     }
   },
   computed: {
     ...mapState(['cardViewMode', 'crossOriginMedia', 'defaultThumbnailSize']),
     isList() {
-      return this.data && !this.data.isItem() && this.cardViewMode === 'list';
+      return this.data && (this.viewMode || this.cardViewMode) === 'list';
     },
     hasImage() {
       return this.showThumbnail && this.thumbnail;
     },
     thumbnail() {
       if (this.data) {
-        let thumbnails = this.data.getThumbnails(true, 'thumbnail');
+        let thumbnails = this.data.getThumbnails(true, 'thumbnail', true);
         if (thumbnails.length > 0) {
           let t = thumbnails[0];
           let width, height;
@@ -35,13 +42,9 @@ export default {
             src: t.getAbsoluteUrl(),
             alt: t.title,
             crossorigin: this.crossOriginMedia,
-            right: this.isList,
-            blankColor: "#ffffff",
             width,
             height,
-            // for b-card-img-lazy
-            "blank-width": width,
-            "blank-height": height
+            placement: this.isList ? 'end' : 'top'
           };
         }
       }
@@ -54,27 +57,13 @@ export default {
       return [];
     },
     isDeprecated() {
-      if (!(this.data instanceof STAC)) {
-        return false;
-      }
-      // Items have deprecated in properties, catalogs/collections have it at the root
-      const deprecated = this.data.isItem() ? this.data.properties?.deprecated : this.data.deprecated;
-      return Boolean(deprecated);
+      return this.data instanceof STAC && Boolean(this.data.getMetadata('deprecated'));
     },
     hasDescription() {
-      if (!(this.data instanceof STAC)) {
-        return false;
-      }
-      // Use getMetadata which handles both items and catalogs
-      const description = this.data.getMetadata('description');
-      return Utils.hasText(description);
+      return this.data instanceof STAC && hasText(this.data.getMetadata('description'));
     },
     summarizeDescription() {
-      if (!this.hasDescription) {
-        return '';
-      }
-      const description = this.data.getMetadata('description');
-      return Utils.summarizeMd(description, 300);
+      return this.hasDescription ? Utils.summarizeMd(this.data.getMetadata('description'), 300) : '';
     }
   }
 };

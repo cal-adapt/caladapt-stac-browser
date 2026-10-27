@@ -1,8 +1,14 @@
+// Cal-Adapt bear logo (public/bear.png, copied from cal-adapt-guidance/assets).
+// STAC Browser resolves relative image paths against the STAC API, so build the
+// full URL from the page's own address. Vite also loads this file in Node, where
+// there is no window; the logo is only needed in the browser.
+const calAdaptBear = typeof window === "undefined" ? null : new URL("bear.png", document.baseURI).href;
+
 export default {
   catalogUrl: "https://8dawjspn5g.execute-api.us-west-2.amazonaws.com",
   catalogTitle: "Cal-Adapt STAC Browser",
   catalogTitleAfterImage: null,
-  catalogImage: null,
+  catalogImage: calAdaptBear,
   allowExternalAccess: true, // Must be true if catalogUrl is not given
   allowedDomains: [],
   enforcedColorMode: "auto",

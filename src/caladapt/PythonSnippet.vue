@@ -3,8 +3,10 @@
     <div class="snippet-header">
       <p class="snippet-label">{{ label }}</p>
       <div class="snippet-actions">
-        <a v-if="climakitaeSnippet" href="https://github.com/cal-adapt/climakitae" target="_blank" rel="noopener noreferrer" class="snippet-btn">climakitae on GitHub</a>
-        <button class="snippet-btn" @click="copy">{{ copied ? '✓ Copied' : 'Copy code' }}</button>
+        <b-button v-if="climakitaeSnippet" size="sm" variant="secondary" href="https://github.com/cal-adapt/climakitae" target="_blank" rel="noopener noreferrer">
+          climakitae on GitHub
+        </b-button>
+        <CopyButton :copyText="snippet" size="sm" variant="secondary">Copy code</CopyButton>
       </div>
     </div>
     <pre class="snippet-code"><code>{{ snippet }}</code></pre>
@@ -12,6 +14,9 @@
 </template>
 
 <script>
+import { BButton } from 'bootstrap-vue-next';
+import CopyButton from '../components/CopyButton.vue';
+
 // climakitae query methods, in order, and the item property each one takes.
 // The model name goes through modelName() because climakitae's catalog uses
 // official casing ("TaiESM1") while STAC IDs are lowercase ("taiesm1").
@@ -43,16 +48,12 @@ const modelName = id => MODEL_NAMES[String(id).toLowerCase()] || id;
 
 export default {
   name: 'PythonSnippet',
+  components: { BButton, CopyButton },
   props: {
     asset: {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {
-      copied: false
-    };
   },
   computed: {
     href() {
@@ -111,17 +112,6 @@ export default {
     label() {
       return this.climakitaeSnippet ? 'Open with climakitae' : 'Open with Python';
     }
-  },
-  methods: {
-    async copy() {
-      try {
-        await navigator.clipboard.writeText(this.snippet);
-        this.copied = true;
-        setTimeout(() => { this.copied = false; }, 2000);
-      } catch (e) {
-        console.error('Failed to copy snippet', e);
-      }
-    }
   }
 };
 </script>
@@ -144,18 +134,5 @@ export default {
 .snippet-actions {
   display: flex;
   gap: 0.3rem;
-}
-.snippet-btn {
-  background: var(--bs-body-bg);
-  color: var(--bs-body-color);
-  border: 1px solid var(--bs-border-color);
-  border-radius: 4px;
-  padding: 0.2rem 0.6rem;
-  font-size: 0.72rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-.snippet-btn:hover {
-  background: var(--bs-secondary-bg);
 }
 </style>

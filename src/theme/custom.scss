@@ -1,7 +1,8 @@
 // Cal-Adapt overrides on top of STAC Browser's page styles
 
 #stac-browser {
-  // Keyword chips: light cobalt tint instead of solid grey, so long lists read less heavy
+  // Keyword chips: light cobalt tint instead of solid grey, so long lists read less heavy.
+  // !important because Bootstrap's badge variant classes set these colors with !important.
   .keywords .badge {
     background-color: color-mix(in srgb, var(--bs-primary) 12%, transparent) !important;
     color: var(--bs-primary-text-emphasis) !important;

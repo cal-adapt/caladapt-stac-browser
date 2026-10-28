@@ -9,7 +9,7 @@ Based on [radiantearth/stac-browser](https://github.com/radiantearth/stac-browse
 Custom code lives in `src/caladapt/` and is wired in through STAC Browser's config files, so upstream files stay unchanged where possible.
 
 - **Config** (`config.js`): Cal-Adapt API and title, the Cal-Adapt bear logo (`public/bear.png`), hash routing so existing `/#/` links keep working, footer links.
-- **Brand theme**: Cal-Adapt colors, Poppins and Roboto fonts, and the Wheat to Deep Orange header in `src/theme/variables.scss`; small overrides in `src/theme/custom.scss`.
+- **Brand theme**: Cal-Adapt colors, Poppins and Roboto fonts, and the Cobalt to Ocean header in `src/theme/variables.scss`; small overrides in `src/theme/custom.scss`.
 - **Widgets** (`widgets.config.js`): featured collections on the landing page, and a Dataset Overview on collection pages with tables built from `caladapt:*_labels` fields and queryable values (labels in `src/caladapt/collectionOverviewConfig.js`).
 - **Asset actions** (`assetActions.config.js`): Preview for CSV files, and Download for public `s3://` files over HTTPS.
 - **Python snippets**: climakitae or xarray/pandas code on each asset (`src/caladapt/PythonSnippet.vue`).

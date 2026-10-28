@@ -101,16 +101,16 @@ $link-hover-color: darken($link-color, 20%);
 @import 'bootstrap/scss/_variables';
 
 // Main/top header of the website
-// The brand's Wheat to Deep Orange gradient, as on the Cal-Adapt map app
-$header: $ca-deep-orange;
-$header-background: linear-gradient(59deg, #fde7c4 0%, $ca-wheat 25%, $ca-deep-orange 100%);
+// Cobalt to Ocean gradient, so the orange bear logo stands out
+$header: $ca-cobalt;
+$header-background: linear-gradient(59deg, $ca-cobalt 0%, $ca-ocean 100%);
 $header-position: sticky; // sticky or static
 $header-font-size: 1.5rem;
 $header-font-weight: 600;
 $header-text-shadow: none;
 
 $header-contrast: color-contrast($header);
-$header-color: #222222; // dark text on the light gradient
+$header-color: $header-contrast;
 $header-hover-color: $header-contrast;
 
 $header-button-background: transparent;

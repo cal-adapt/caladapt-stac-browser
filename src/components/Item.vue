@@ -1,46 +1,53 @@
 <template>
-  <b-card no-body class="item-card" :class="classes" v-b-visible.400="load">
+  <b-card no-body class="item-card" :class="classes" v-visible.400="load" :img-placement="isList ? 'end' : undefined">
     <div class="card-img-wrapper">
-      <b-card-img-lazy v-if="hasImage" class="thumbnail" offset="200" v-bind="thumbnail" />
+      <AuthImage v-if="hasImage" class="thumbnail" v-bind="thumbnail" lazy />
     </div>
     <b-card-body>
       <b-card-title>
         <StacLink :data="[data, item]" class="stretched-link" />
       </b-card-title>
       <b-card-text v-if="fileFormats.length > 0 || hasDescription || isDeprecated" class="intro">
-        <b-badge v-if="isDeprecated" variant="warning" class="mr-1 mt-1 deprecated">{{ $t('deprecated') }}</b-badge>
-        <b-badge v-for="format in fileFormats" :key="format" variant="secondary" class="mr-1 mt-1 fileformat">{{ format }}</b-badge>
+        <b-badge v-if="isDeprecated" variant="warning" class="me-1 mt-1 deprecated">{{ $t('deprecated') }}</b-badge>
+        <b-badge v-for="format in fileFormats" :key="format" variant="secondary" class="me-1 mt-1 fileformat">{{ format }}</b-badge>
         <template v-if="hasDescription">{{ summarizeDescription }}</template>
       </b-card-text>
       <Keywords v-if="showKeywordsInItemCards && keywords.length > 0" :keywords="keywords" variant="primary" />
-      <b-card-text>
-        <small class="text-muted">
-          <template v-if="extent">{{ extent | formatTemporalExtent }}</template>
-          <template v-else-if="data && data.properties.datetime">{{ data.properties.datetime | formatTimestamp }}</template>
-          <template v-else>{{ $t('items.noTime') }}</template>
-        </small>
-      </b-card-text>
+      <b-card-text><small class="datetime" v-html="displayTime" /></b-card-text>
     </b-card-body>
+    <b-card-footer>
+      <slot name="footer" :data="data" :source="item">
+        <StacActions v-if="data" :data="data" variant="outline-primary" compact size="sm" />
+      </slot>
+    </b-card-footer>
   </b-card>
 </template>
 
 <script>
+import { defineComponent, defineAsyncComponent } from 'vue';
 import { mapState, mapGetters } from 'vuex';
+
 import FileFormatsMixin from './FileFormatsMixin';
 import CardMixin from './CardMixin';
 import StacLink from './StacLink.vue';
+import StacActions from './StacActions.vue';
 import { STAC } from 'stac-js';
 import { formatTemporalExtent, formatTimestamp } from '@radiantearth/stac-fields/formatters';
+import { BCard, BCardBody, BCardFooter, BCardText, BCardTitle } from 'bootstrap-vue-next';
+import AuthImage from './AuthImage.vue';
 
-export default {
+export default defineComponent({
   name: 'Item',
   components: {
+    AuthImage,
     StacLink,
-    Keywords: () => import('./Keywords.vue')
-  },
-  filters: {
-    formatTemporalExtent,
-    formatTimestamp
+    StacActions,
+    BCard,
+    BCardBody,
+    BCardFooter,
+    BCardText,
+    BCardTitle,
+    Keywords: defineAsyncComponent(() => import('./Keywords.vue'))
   },
   mixins: [
     FileFormatsMixin,
@@ -71,6 +78,17 @@ export default {
       }
       return null;
     },
+    displayTime() {
+      if (this.extent) {
+        return formatTemporalExtent(this.extent);
+      }
+      else if (this.data && this.data.properties.datetime) {
+        return formatTimestamp(this.data.properties.datetime);
+      }
+      else {
+        return this.$t('items.noTime');
+      }
+    },
   },
   methods: {
     load(visible) {
@@ -80,5 +98,5 @@ export default {
       this.$store.commit(visible ? 'queue' : 'unqueue', this.item.getAbsoluteUrl());
     }
   }
-};
+});
 </script>

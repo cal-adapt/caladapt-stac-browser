@@ -1,0 +1,34 @@
+name: Deploy PR preview to Netlify
+
+# Builds each pull request and comments a Netlify preview link on it.
+# Production stays on GitHub Pages (deploy-demo.yml).
+# Needs the NETLIFY_AUTH_TOKEN and NETLIFY_SITE_ID repository secrets.
+
+on:
+  pull_request:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v4
+        with:
+          publish-dir: dist
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: ${{ github.event.pull_request.title }}
+          enable-pull-request-comment: true
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

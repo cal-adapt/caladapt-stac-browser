@@ -1,25 +1,41 @@
-// Default Theme for STAC Browser
+// ─────────────────────────────────────────────────────────
+// Default themes for STAC Browser (light and dark mode).
+//
+// Most of the variables below are Bootstrap variables.
+// For Bootstrap's full variable reference see:
+//   Light: https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss
+//   Dark:  https://github.com/twbs/bootstrap/blob/main/scss/_variables-dark.scss
+//
+// For simplicity we just provide some common options as default,
+// but you can override all Bootstrap SASS variables.
+// ─────────────────────────────────────────────────────────
 
-// Most of the variables below are Bootstrap variables, see https://getbootstrap.com/docs/4.0/getting-started/theming/ for details.
-// For simplicity we just provide some common options as default, but you can override all Bootstrap Sass variables.
+@import "bootstrap/scss/_functions";
 
-$logo-image-height: 2rem;
+// Cal-Adapt: Analytics Engine brand palette (Brand Guidelines, Sept 2021)
+$ca-deep-orange: #f79226;
+$ca-cobalt: #33658a;
+$ca-ocean: #4d9de0;
+$ca-wheat: #f7dbb5;
+$ca-goldenrod: #fcc24d;
 
-// Background and text default colors
-$body-bg: #f2f4f7;
-$body-color: #333538;
+// ─────────────────────────────────────────────────────────
+// GENERAL — color-neutral settings that apply in both modes
+// ─────────────────────────────────────────────────────────
 
-// Colors
-$theme-colors: (
-  "primary":       #1a5f82,
-  "secondary":     #4a4f57,
-  "success":       #165c27,
-  "info":          #e8f4fb,
-  "warning":       #ffc107,
-  "danger":        #dc3545,
-  "light":         #f8f9fa,
-  "dark":          #333538
-);
+// STAC Browser custom variables
+$logo-height: 2rem;
+// Margin between the main sections of the page (header, content, footer)
+$block-gap: 1rem;
+// Padding for the code blocks
+$code-padding: 1rem;
+// Margin at the top of the page (for a custom header)
+$header-margin: 0px;
+// Max. icon size
+$max-icon-size: 32px;
+
+// Minimum contrast ratio (WCAG AA = 4.5, AA large = 3)
+$min-contrast-ratio: 3;
 
 // Breakpoints for responsive design
 $grid-breakpoints: (
@@ -35,35 +51,90 @@ $grid-breakpoints: (
 // Font size
 $font-size-base: 1rem;
 // Fonts for normal text
-$font-family-sans-serif: "Inter", "Helvetica Neue", Arial, sans-serif;
+$font-family-sans-serif: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 // Fonts for headings
-$headings-font-family: $font-family-sans-serif;
+$headings-font-family: "Poppins", $font-family-sans-serif;
 // Fonts for code
 $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
 // Heading sizes
-$h1-font-size: 2.2rem;
+$h1-font-size: 2rem;
+$h1-font-weight: 600;
 $h2-font-size: 1.6rem;
+$h2-font-weight: 600;
 $h3-font-size: 1.4rem;
 $h4-font-size: 1.2rem;
 
-// Heading color
-$headings-color: null;
-
-// Links
-$link-color: map-get($theme-colors, "primary");
+// Link decoration (non-color)
 $link-decoration: none;
-$link-hover-color: darken($link-color, 15%);
 $link-hover-decoration: underline;
 
-// Margin between the main sections of the page (header, content, footer)
-$block-margin: 0.75rem;
-
-// Margin at the top of the page (for a custom header)
-$header-margin: 0px;
-
 // Border radius
-$border-radius: 0.25rem;
+$border-radius: .375rem;
 
-// Max. icon size
-$max-icon-size: 32px;
+// ─────────────────────────────────────────────────────────
+// LIGHT MODE — colors and color-derived values
+// ─────────────────────────────────────────────────────────
+
+// Background and text default colors
+$body-bg: white;
+$body-color: #222222;
+
+// Theme colors
+$primary:   $ca-cobalt;
+$secondary: #6c757d;
+$success:   #28a745;
+$info:      $ca-ocean;
+$warning:   $ca-goldenrod;
+$danger:    #dc3545;
+$light:     #f8f9fa; // light means muted
+$dark:      #343a40; // dark means highlighted
+
+// Heading colors
+$h1-color: inherit;
+$subheadings-color: $ca-cobalt; // h2 only
+
+// Link colors
+$link-color: $ca-cobalt;
+$link-hover-color: darken($link-color, 20%);
+
+@import 'bootstrap/scss/_variables';
+
+// Main/top header of the website
+// Cobalt to Ocean gradient, so the orange bear logo stands out
+$header: $ca-cobalt;
+$header-background: linear-gradient(59deg, $ca-cobalt 0%, $ca-ocean 100%);
+$header-position: sticky; // sticky or static
+$header-font-size: 1.5rem;
+$header-font-weight: 600;
+$header-text-shadow: none;
+
+$header-contrast: color-contrast($header);
+$header-color: $header-contrast;
+$header-hover-color: $header-contrast;
+
+$header-button-background: transparent;
+$header-button-border-color: $header-color;
+$header-hover-button-border-color: $header-hover-color;
+$header-button-hover-background: rgba($header-contrast, 0.15);
+$header-button-active-background: rgba($header-contrast, 0.25);
+
+// ─────────────────────────────────────────────────────────
+// DARK MODE
+// ─────────────────────────────────────────────────────────
+// Bootstrap computes sensible defaults from the light-mode
+// theme colors above, so we only have some default listed here.
+// Override what you need from the Bootstrap variables (see above).
+// ─────────────────────────────────────────────────────────
+
+$body-bg-dark: #212529;
+$body-color-dark: #dee2e6;
+
+$h1-color-dark: inherit;
+// Cobalt is too dark on a dark page, so headings and links use a light Ocean blue
+$subheadings-color-dark: tint-color($ca-ocean, 40%);
+$link-color-dark: tint-color($ca-ocean, 40%);
+
+$link-hover-color-dark: $body-color-dark;
+
+@import 'bootstrap/scss/_variables-dark';

@@ -4,8 +4,14 @@
       <FullscreenButton :element="() => $refs.previews" />
     </div>
     <div class="content">
-      <a v-for="thumbnail in thumbnails" :key="thumbnail.href" :href="thumbnail.getAbsoluteUrl()" target="_blank" download>
-        <img class="thumbnail" :src="thumbnail.getAbsoluteUrl()" :crossorigin="crossOriginMedia">
+      <a
+        v-for="thumbnail in thumbnails" :key="thumbnail.href" :href="hrefs[thumbnail.href] || thumbnail.getAbsoluteUrl()"
+        target="_blank" rel="noopener noreferrer" download
+      >
+        <AuthImage
+          class="thumbnail" :src="thumbnail.getAbsoluteUrl()" :crossorigin="crossOriginMedia"
+          @resolved="url => hrefs[thumbnail.href] = url"
+        />
       </a>
     </div>
   </div>
@@ -13,17 +19,26 @@
 
 <script>
 import { mapState } from 'vuex';
+import { defineAsyncComponent } from 'vue';
 
 export default {
   name: 'Thumbnails',
   components: {
-    FullscreenButton: () => import('./FullscreenButton.vue')
+    AuthImage: defineAsyncComponent(() => import('./AuthImage.vue')),
+    FullscreenButton: defineAsyncComponent(() => import('./FullscreenButton.vue'))
   },
   props: {
     thumbnails: {
       type: Array,
       required: true
     }
+  },
+  data() {
+    return {
+      // The URLs the thumbnails are shown from (incl. credentials / object URLs),
+      // so that the download links download what is shown
+      hrefs: {}
+    };
   },
   computed: {
     ...mapState(['crossOriginMedia'])
@@ -48,7 +63,7 @@ export default {
       border-radius: $border-radius;
 
       &:hover {
-        border-color: map-get($theme-colors, "primary");
+        border-color: $dark;
       }
     }
 
@@ -73,7 +88,7 @@ export default {
       z-index: 1;
 
       .fullscreen-button {
-        margin: 5px;
+        margin: 10px;
       }
     }
 
@@ -81,6 +96,20 @@ export default {
       .thumbnail {
         max-height: none;
         border-radius: 0;
+      }
+    }
+  }
+}
+
+[data-bs-theme="dark"] {
+  #stac-browser {
+    .previews {
+      a {
+        border: 1px solid $body-bg-dark;
+    
+        &:hover {
+          border-color: $light;
+        }
       }
     }
   }

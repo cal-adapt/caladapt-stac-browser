@@ -1,2 +1,0 @@
-import{bs as s}from"./index-knHRhiIW.js";import{g as o}from"./_commonjsHelpers-CE1G-McA.js";import{r as n,a as i,b as m}from"./formatters-DTGp8QAC.js";var p=n();const u=o(p);var g=i();const c=o(g);u.addDependency("content-type",c);const x=t=>{let e={computed:{...s(["uiLanguage"])},methods:{}};for(let r in t){let a=t[r];e.methods[r]=function(){return this.uiLanguage,a(...arguments)}}return e};var l=m();export{x as S,l as f};
-//# sourceMappingURL=formatters-BPLSQvc4.js.map
